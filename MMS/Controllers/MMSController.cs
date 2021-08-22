@@ -45,14 +45,14 @@ namespace MMS.Controllers
                 ////////////////////////////////Check validation Request////////////////////////
 
                 MM1Decoder decoder = new MM1Decoder(body);
-                MMSMessage message = decoder.Parse();
+                MMSMessageModel message = decoder.Parse();
 
                 if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x80])
                 {
                     message.From = $"{from}/TYPE=PLMN";
                     message.MessageSize = contentLength;
 
-                    string messageID = DBApi.InsertMessage.Execute(mmsDecoder);
+                    string messageID = DBApi.InsertMessage.Execute(message);
 
                     SendConf sendConf = new SendConf();
                     if (String.IsNullOrEmpty(messageID))

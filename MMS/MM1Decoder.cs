@@ -30,9 +30,9 @@ namespace MMS
             PDU = pdu;
         }
 
-        public MMSMessage Parse()
+        public MMSMessageModel Parse()
         {
-            MMSMessage message = new MMSMessage();
+            MMSMessageModel message = new MMSMessageModel();
             int pos = 0;
             try
             {
