@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ManagerAction.cs" />
+    <Compile Include="AppSettings.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MMSController.cs" />
     <Compile Include="DBApi\InsertMessage.cs" />
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="log4net.config" />
+    <Content Include="AppSettings.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -18,5 +18,25 @@ namespace MMSC.Actions
         private static SmtpClient smtpClient;
 
         private static HttpClient httpClient;
+
+        static ManagerAction()
+        {
+
+            smtpClient = new SmtpClient();
+            httpClient = new HttpClient();
+            // options = new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism };
+            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism });
+        }
+
+        static Action<MMSMessageModel> fn = async req =>
+        {
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        };
     }
 }
