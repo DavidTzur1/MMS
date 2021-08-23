@@ -25,5 +25,31 @@ namespace MMSC
             }
             return String.Empty;
         }
+
+        public static int PPGBoundedCapacity
+        {
+            get
+            {
+                int value = 20000;
+                if (int.TryParse(Parameters["BoundedCapacity"], out value))
+                {
+                    return value;
+                }
+                return 20000;
+            }
+        }
+
+        public static int PPGMaxDegreeOfParallelism
+        {
+            get
+            {
+                int value = 1;
+                if (int.TryParse(Parameters["PPGMaxDegreeOfParallelism"], out value))
+                {
+                    return value;
+                }
+                return 1;
+            }
+        }
     }
 }

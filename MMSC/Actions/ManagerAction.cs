@@ -25,7 +25,8 @@ namespace MMSC.Actions
             smtpClient = new SmtpClient();
             httpClient = new HttpClient();
             // options = new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism };
-            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism });
+            //ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism });
+            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = AppSettings.PPGBoundedCapacity, MaxDegreeOfParallelism = AppSettings.PPGMaxDegreeOfParallelism });
         }
 
         static Action<MMSMessageModel> fn = async req =>
