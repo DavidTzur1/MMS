@@ -88,9 +88,9 @@
     <None Include="Trace\mncn00_http.pcap" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MMS\MMS.csproj">
+    <ProjectReference Include="..\MMS\MMSC.csproj">
       <Project>{A6A301DA-67A2-4BAE-B552-A0D2409D849B}</Project>
-      <Name>MMS</Name>
+      <Name>MMSC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
