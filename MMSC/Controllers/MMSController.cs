@@ -26,8 +26,7 @@ namespace MMSC.Controllers
             long contentLength;
             try
             {
-
-
+               
                 byte[] body = await Request.Content.ReadAsByteArrayAsync();
 
                 log.Debug(body.Length);
@@ -92,6 +91,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
+                    log.Info($"{message.MessageType}|{message.From}|{string.Join(";", message.To)}");
                     return ResponseMessage(result);
                 }
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85])
@@ -105,6 +105,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
+                    log.Info($"{message.MessageType}|{message.From}|{string.Join(";", message.To)}");
                     return ResponseMessage(result);
 
                 }
@@ -113,6 +114,8 @@ namespace MMSC.Controllers
                     log.Error($"The value tag X-Mms-Message-Type not valid");
                     return null;
                 }
+
+               
 
             }
             catch (Exception ex)

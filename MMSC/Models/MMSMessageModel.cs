@@ -14,7 +14,7 @@ namespace MMSC.Models
         public string BCC { get; set; }
         public string CC { get; set; }
         public string ContentLocation { get; set; }
-        public string Subject { get; set; }
+        public string Subject { get; set; } = string.Empty;
         public string From { get; set; }
         public string Sender { get; set; }
         public string MessageID { get; set; }
@@ -22,8 +22,8 @@ namespace MMSC.Models
         public DateTime Date { get; set; }
         public long Expiry { get; set; }
         public string OriginatorSystem { get; set; }
-        public string MessageClass { get; set; }
-        public string Priority { get; set; }
+        public string MessageClass { get; set; } = "Personal";
+        public string Priority { get; set; } = "Normal";
         public int SenderVisibility { get; set; }
         public int DeliveryReport { get; set; }
         public int ReadReport { get; set; }
@@ -32,7 +32,7 @@ namespace MMSC.Models
         public int Status { get; set; }
         public int ReportAllowed { get; set; }
         public string ContentType { get; set; }
-        public string ContentTypeRaw { get; set; }
+        public string ContentTypeRaw { get; set; } = string.Empty;
         public string Data { get; set; }
 
         public MMSMessageModel()
