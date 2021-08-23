@@ -77,6 +77,7 @@ namespace MMSC.Controllers
                         Content = new StreamContent(new MemoryStream(sendConf.Encode()))
                     };
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
+                    log.Info($"{message.MessageType}|{message.From}|{string.Join(";", message.To)}");
                     return ResponseMessage(result);
 
                 }

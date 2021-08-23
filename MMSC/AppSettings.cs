@@ -31,7 +31,7 @@ namespace MMSC
             get
             {
                 int value = 20000;
-                if (int.TryParse(Parameters["BoundedCapacity"], out value))
+                if (int.TryParse(Parameters["PPGBoundedCapacity"], out value))
                 {
                     return value;
                 }
