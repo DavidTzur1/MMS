@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Param file for AppSettings
-AppSettings.JSON
+MMS/MMSC/AppSettings.JSON
