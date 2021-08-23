@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Web;
 
@@ -28,6 +29,24 @@ namespace MMS
                 string uniqueID = newValue.ToString() + ConfigurationManager.AppSettings[Environment.MachineName];
                 return uniqueID;
             }
+        }
+
+        public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+        }
+
+        public static string GetHexString(byte[] arr)
+        {
+            var sb = new StringBuilder(arr.Length * 2);
+            foreach (byte b in arr)
+            {
+                sb.AppendFormat("{0:X2}", b);
+            }
+            return sb.ToString();
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using MMS.Models;
+﻿using MMS.Actions;
+using MMS.Decoders;
+using MMS.Encoders;
+using MMS.Models;
+using MMS.Tables;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,17 +58,17 @@ namespace MMS.Controllers
 
                     string messageID = DBApi.InsertMessage.Execute(message);
 
-                    SendConf sendConf = new SendConf();
+                    SendConfEncoder sendConf = new SendConfEncoder();
                     if (String.IsNullOrEmpty(messageID))
                     {
-                        sendConf.TransactionId = mmsDecoder.TransactionId;
+                        sendConf.TransactionId = message.TransactionId;
                         sendConf.ResponseStatus = ResponseStatuses.ErrorNetworkProblem;
                     }
                     else
                     {
-                        mmsDecoder.MessageID = messageID;
-                        MMSAction.ActionBlock.Post(mmsDecoder);
-                        sendConf.TransactionId = mmsDecoder.TransactionId;
+                        message.MessageID = messageID;
+                        ManagerAction.ActionBlock.Post(message);
+                        sendConf.TransactionId = message.TransactionId;
                         sendConf.ResponseStatus = ResponseStatuses.Ok;
                         sendConf.MessageID = messageID;
                     }
@@ -77,10 +81,10 @@ namespace MMS.Controllers
                     return ResponseMessage(result);
 
                 }
-                else if (mmsDecoder.MessageType == MmsDecoder.MMS_MESSAGE_TYPES[0x83])
+                else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x83])
                 {
-                    mmsDecoder.From = $"{from}/TYPE=PLMN";
-                    DBApi.InsertNotify.Execute(mmsDecoder);
+                    message.From = $"{from}/TYPE=PLMN";
+                    DBApi.InsertNotify.Execute(message);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -90,10 +94,10 @@ namespace MMS.Controllers
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
                     return ResponseMessage(result);
                 }
-                else if (mmsDecoder.MessageType == MmsDecoder.MMS_MESSAGE_TYPES[0x85])
+                else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85])
                 {
-                    mmsDecoder.From = $"{from}/TYPE=PLMN";
-                    DBApi.InsertNotify.Execute(mmsDecoder);
+                    message.From = $"{from}/TYPE=PLMN";
+                    DBApi.InsertNotify.Execute(message);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
                     {
