@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # Param file for AppSettings
 MMS/MMSC/AppSettings.JSON
 /MMSC/API/AppSetting.cs
+/MMSC/Config/AppSettings.json
