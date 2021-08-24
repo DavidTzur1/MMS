@@ -24,12 +24,13 @@ namespace MMSC.Controllers
         {
             IEnumerable<string> headerValues;
             long contentLength;
+            MMSMessageModel message = null; ;
             try
             {
                
                 byte[] body = await Request.Content.ReadAsByteArrayAsync();
 
-                log.Debug(body.Length);
+                //log.Debug(body.Length);
                 ///////Get seander info from header/////////////////////////////////////
                 string from = "";
                 if (Request.Headers.TryGetValues("X-Wap-MSISDN", out headerValues))
@@ -48,7 +49,7 @@ namespace MMSC.Controllers
                 ////////////////////////////////Check validation Request////////////////////////
 
                 MM1Decoder decoder = new MM1Decoder(body);
-                MMSMessageModel message = decoder.Parse();
+                message = decoder.Parse();
 
                 if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x80])
                 {
@@ -77,7 +78,7 @@ namespace MMSC.Controllers
                         Content = new StreamContent(new MemoryStream(sendConf.Encode()))
                     };
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    log.Info($"{message.MessageType}|{message.From}|{string.Join(";", message.To)}");
+                    //log.Info(message.ToString());
                     return ResponseMessage(result);
 
                 }
@@ -92,7 +93,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    log.Info($"{message.MessageType}|{message.From}|{string.Join(";", message.To)}");
+                    //log.Info(message.ToString());
                     return ResponseMessage(result);
                 }
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85])
@@ -106,7 +107,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    log.Info($"{message.MessageType}|{message.From}|{string.Join(";", message.To)}");
+                    //log.Info(message.ToString());
                     return ResponseMessage(result);
 
                 }
@@ -123,6 +124,10 @@ namespace MMSC.Controllers
             {
                 log.Debug(ex);
                 return null;
+            }
+            finally
+            {
+                log.Info(message.ToString());
             }
         }
     }

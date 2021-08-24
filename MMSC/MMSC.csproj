@@ -99,12 +99,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\AppSettings.xml" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ManagerAction.cs" />
     <Compile Include="API\AppSettings.cs" />
+    <Compile Include="API\GetSubscriptionOperator.cs" />
     <Compile Include="API\Tools.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MMSController.cs" />
@@ -118,13 +120,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IRResponseModel.cs" />
     <Compile Include="Models\MMSMessageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables\ResponseStatuses.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="log4net.config" />
-    <Content Include="Config\AppSettings.json" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -25,15 +25,24 @@ namespace MMSC.Actions
 
             smtpClient = new SmtpClient();
             httpClient = new HttpClient();
-            // options = new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism };
-            //ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = PPGParameters.BoundedCapacity, MaxDegreeOfParallelism = PPGParameters.MaxDegreeOfParallelism });
-            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = AppSettings.PPGBoundedCapacity, MaxDegreeOfParallelism = AppSettings.PPGMaxDegreeOfParallelism });
+            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = AppSettings.PPG.BoundedCapacity, MaxDegreeOfParallelism = AppSettings.PPG.MaxDegreeOfParallelism });
         }
 
         static Action<MMSMessageModel> fn = async req =>
         {
             try
             {
+                foreach (var item in req.To)
+                {
+                    if (item.Contains("@"))
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -5,51 +5,97 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace MMSC.API
 {
     public class AppSettings
     {
-        private static Dictionary<string, string> Parameters;
+        static public XElement XMLSettings { get; set; }
         static AppSettings()
         {
-            Parameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(ConfigurationManager.AppSettings["AppSettingsFile"]));
+            XMLSettings = XElement.Load(ConfigurationManager.AppSettings["XMLSettingsFile"]);
         }
 
-        public string GetValue(string key)
+        public class PPG
         {
-            string str = string.Empty;
-            if (Parameters.TryGetValue(key, out str))
+            public static int MaxDegreeOfParallelism
             {
-                return str;
-            }
-            return String.Empty;
-        }
-
-        public static int PPGBoundedCapacity
-        {
-            get
-            {
-                int value = 20000;
-                if (int.TryParse(Parameters["PPGBoundedCapacity"], out value))
+                get
                 {
-                    return value;
+                    int value = 1;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Elements("PPG").First().Attribute("MaxDegreeOfParallelism").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 1;
                 }
-                return 20000;
+            }
+            public static int BoundedCapacity
+            {
+                get
+                {
+                    int value = 1;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Elements("PPG").First().Attribute("BoundedCapacity").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 1;
+                }
             }
         }
-
-        public static int PPGMaxDegreeOfParallelism
+        public class IR
         {
-            get
+            public static string IP
             {
-                int value = 1;
-                if (int.TryParse(Parameters["PPGMaxDegreeOfParallelism"], out value))
+                get
                 {
-                    return value;
+                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("IP").Value;
+
                 }
-                return 1;
             }
+
+            public static string PlatformName
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("PlatformName").Value;
+
+                }
+            }
+            public static string PlatformUser
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("PlatformUser").Value;
+
+                }
+            }
+            public static string PlatformPwd
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("PlatformPwd").Value;
+
+                }
+            }
+
+            public static int Timeout
+            {
+                get
+                {
+                    int value = 20;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Elements("PPG").First().Attribute("Timeout").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 20;
+                }
+            }
+
         }
     }
 }

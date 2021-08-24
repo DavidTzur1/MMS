@@ -366,3 +366,4 @@ FodyWeavers.xsd
 MMS/MMSC/AppSettings.JSON
 /MMSC/API/AppSetting.cs
 /MMSC/Config/AppSettings.json
+/MMSC/Config/AppSettings.xml

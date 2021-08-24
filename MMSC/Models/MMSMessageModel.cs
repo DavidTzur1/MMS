@@ -40,6 +40,11 @@ namespace MMSC.Models
             To = new List<string>();
         }
 
+        public override string ToString()
+        {
+            return $"{TransactionId}|{MessageType}|{From}|{string.Join(";", To)}";
+        }
+
 
     }
 }
