@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ManagerAction.cs" />
-    <Compile Include="API\AppSetting.cs" />
+    <Compile Include="API\AppSettings.cs" />
     <Compile Include="API\Tools.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MMSController.cs" />

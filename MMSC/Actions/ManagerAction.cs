@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MMSC.API;
 using MMSC.Models;
 using System;
 using System.Collections.Generic;
