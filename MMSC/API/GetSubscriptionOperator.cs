@@ -19,18 +19,28 @@ namespace MMSC.API
             httpClient = new HttpClient();
         }
 
-        public static async Task<IRResponseModel>  Execute(string subs)
+        public static async Task<IRResponseModel> ExecuteAsync(string subs)
         {
+            IRResponseModel response = new IRResponseModel();
             try
             {
-                IRResponseModel response = new IRResponseModel();
+                
                 string to = subs.Substring(0, subs.ToUpper().IndexOf("/TYPE") != -1 ? subs.ToUpper().IndexOf("/TYPE") : subs.Length);
                 string uri = $"{AppSettings.IR.IP}/informationregistry.asmx/Get_Subs_Operator?PlatformName={AppSettings.IR.PlatformName}&PlatformUser={AppSettings.IR.PlatformUser}&PlatformPwd={AppSettings.IR.PlatformPwd}&MSISDN={to.TrimStart('+')}";
                 var xmlStr = await httpClient.GetStringAsync(uri);
                 XElement root = XElement.Parse(xmlStr);
 
                 XNamespace ns = "http://orange.co.il/webservices/IR";
-                response.Status = root.Element(ns + "Status").Value;
+
+                int status;
+                if(int.TryParse(root.Element(ns + "Status").Value,  out status))
+                {
+                    response.Status = status;
+                }
+                else
+                {
+                    response.Status = -1;
+                }
                 response.Description = root.Element(ns + "Description").Value;
 
                 foreach (var item in root.Element(ns + "Info").Elements(ns + "Param"))
@@ -42,9 +52,12 @@ namespace MMSC.API
             }
             catch (Exception ex)
             {
+                response.Status = -999;
+                response.Description = ex.Message;
                 log.Error(ex);
+                return response;
             }
-            return null;
+            
         }
     }
 }

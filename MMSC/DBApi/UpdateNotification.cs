@@ -5,15 +5,16 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace MMSC.DBApi
 {
-    public class InsertNotify
+    public class UpdateNotification
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static void Execute(MMSMessageModel message)
+        public static async Task<int> Execute(MMSNotificationModel notif)
         {
             try
             {
@@ -21,23 +22,22 @@ namespace MMSC.DBApi
                 string constring = ConfigurationManager.ConnectionStrings["MMS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constring))
                 {
-                    using (SqlCommand cmd = new SqlCommand("InsertNotify", con))
+                    using (SqlCommand cmd = new SqlCommand("UpdateNotification", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@MessageType", message.MessageType);
-                        cmd.Parameters.AddWithValue("@TransactionID", message.TransactionId);
-                        cmd.Parameters.AddWithValue("@Date", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@From", message.From);
-                        cmd.Parameters.AddWithValue("@StatusCode", message.Status);
+                        cmd.Parameters.AddWithValue("@TransactionID", notif.TransactionID);
+                        cmd.Parameters.AddWithValue("@Status", notif.Status);
                         con.Open();
-                        int rowsAffected = cmd.ExecuteNonQuery();
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         con.Close();
+                        return rowsAffected;
                     }
                 }
             }
             catch (Exception ex)
             {
                 log.Error(ex);
+                return 0;
             }
         }
     }

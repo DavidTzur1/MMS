@@ -1,18 +1,24 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MMSC.Actions;
 using MMSC.API;
+using MMSC.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MMSC.Tests
 {
+   
     /// <summary>
-    /// Summary description for GetSubscriptionOperatorTest
+    /// Summary description for ManagerActionTest
     /// </summary>
     [TestClass]
-    public class GetSubscriptionOperatorTest
+    public class ManagerActionTest
     {
-        public GetSubscriptionOperatorTest()
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public ManagerActionTest()
         {
             //
             // TODO: Add constructor logic here
@@ -60,11 +66,12 @@ namespace MMSC.Tests
         #endregion
 
         [TestMethod]
-        public  void  Execute()
+        public async Task MM1Test()
         {
-            var res =  GetSubscriptionOperator.ExecuteAsync("0545246247").Result;
-            var value1 = res.Info["OPERATOR_NAME"];
-
+            MMSMessageModel message = new MMSMessageModel() { From = "0545246247", To = new List<string>() { "0544604613" }, Expiry = 3600, MessageSize = 30000 ,MessageID=Tools.UniqueID};
+            if(!ManagerAction.ActionBlock.Post(message)) log.Debug("ERROR");
+            await Task.Delay(1000);
+            
         }
     }
 }

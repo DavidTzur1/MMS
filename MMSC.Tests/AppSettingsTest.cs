@@ -63,7 +63,17 @@ namespace MMSC.Tests
         public void GetBoundedCapacity()
         {
             var xml = AppSettings.XMLSettings;
-            var value = AppSettings.PPG.BoundedCapacity;
+            var value = AppSettings.MANAGER.BoundedCapacity;
         }
+
+        [TestMethod]
+        public void GetOperatorInfo()
+        {
+            
+            var op = AppSettings.OPERATORS.GetOperatorInfo("PARTNER");
+            var domain = op.Domain;
+            var isInternal = op.IsInternal;
+        }
+        
     }
 }

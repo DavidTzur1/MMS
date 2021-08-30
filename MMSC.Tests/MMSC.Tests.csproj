@@ -78,13 +78,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettingsTest.cs" />
+    <Compile Include="EncodersTest.cs" />
     <Compile Include="GetSubscriptionOperatorTest.cs" />
+    <Compile Include="ManagerActionTest.cs" />
+    <Compile Include="PPGNotificationModelTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="log4net.config" />
     <None Include="packages.config" />
     <None Include="Trace\mncn00_http.pcap" />
   </ItemGroup>

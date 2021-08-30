@@ -1,18 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MMSC.API;
+using MMSC.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MMSC.Tests
 {
     /// <summary>
-    /// Summary description for GetSubscriptionOperatorTest
+    /// Summary description for PPGNotificationModelTest
     /// </summary>
     [TestClass]
-    public class GetSubscriptionOperatorTest
+    public class PPGNotificationModelTest
     {
-        public GetSubscriptionOperatorTest()
+        public PPGNotificationModelTest()
         {
             //
             // TODO: Add constructor logic here
@@ -60,11 +62,9 @@ namespace MMSC.Tests
         #endregion
 
         [TestMethod]
-        public  void  Execute()
+        public async Task TestMethod1()
         {
-            var res =  GetSubscriptionOperator.ExecuteAsync("0545246247").Result;
-            var value1 = res.Info["OPERATOR_NAME"];
-
+            
         }
     }
 }

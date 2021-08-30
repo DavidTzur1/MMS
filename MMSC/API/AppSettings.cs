@@ -11,13 +11,15 @@ namespace MMSC.API
 {
     public class AppSettings
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         static public XElement XMLSettings { get; set; }
         static AppSettings()
         {
             XMLSettings = XElement.Load(ConfigurationManager.AppSettings["XMLSettingsFile"]);
         }
 
-        public class PPG
+        public class MANAGER
         {
             public static int MaxDegreeOfParallelism
             {
@@ -25,7 +27,7 @@ namespace MMSC.API
                 {
                     int value = 1;
 
-                    if (int.TryParse(AppSettings.XMLSettings.Elements("PPG").First().Attribute("MaxDegreeOfParallelism").Value, out value))
+                    if (int.TryParse(AppSettings.XMLSettings.Element("MANAGER").Attribute("MaxDegreeOfParallelism").Value, out value))
                     {
                         return value;
                     }
@@ -38,11 +40,68 @@ namespace MMSC.API
                 {
                     int value = 1;
 
-                    if (int.TryParse(AppSettings.XMLSettings.Elements("PPG").First().Attribute("BoundedCapacity").Value, out value))
+                    if (int.TryParse(AppSettings.XMLSettings.Element("MANAGER").Attribute("BoundedCapacity").Value, out value))
                     {
                         return value;
                     }
                     return 1;
+                }
+            }
+        }
+
+        public class PPG
+        {
+            public static string URL
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("PPG").Attribute("URL").Value;
+
+                }
+            }
+            public static string AuthToken
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("PPG").Attribute("AuthToken").Value;
+                    //return Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Parameters["UserName"]}:{Parameters["Password"]}"));
+
+                }
+            }
+
+            public static string NotifyRequestedTo
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("PPG").Attribute("NotifyRequestedTo").Value;
+                }
+            }
+
+
+
+
+
+            public static int Timeout
+            {
+                get
+                {
+                    int value = 20;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Element("PPG").Attribute("Timeout").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 20;
+                }
+            }
+
+
+
+            public static string ContentLocation
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("PPG").Attribute("ContentLocation").Value;
                 }
             }
         }
@@ -52,7 +111,7 @@ namespace MMSC.API
             {
                 get
                 {
-                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("IP").Value;
+                    return AppSettings.XMLSettings.Element("IR").Attribute("IP").Value;
 
                 }
             }
@@ -61,7 +120,7 @@ namespace MMSC.API
             {
                 get
                 {
-                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("PlatformName").Value;
+                    return AppSettings.XMLSettings.Element("IR").Attribute("PlatformName").Value;
 
                 }
             }
@@ -69,7 +128,7 @@ namespace MMSC.API
             {
                 get
                 {
-                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("PlatformUser").Value;
+                    return AppSettings.XMLSettings.Element("IR").Attribute("PlatformUser").Value;
 
                 }
             }
@@ -77,7 +136,7 @@ namespace MMSC.API
             {
                 get
                 {
-                    return AppSettings.XMLSettings.Elements("IR").First().Attribute("PlatformPwd").Value;
+                    return AppSettings.XMLSettings.Element("IR").Attribute("PlatformPwd").Value;
 
                 }
             }
@@ -88,7 +147,7 @@ namespace MMSC.API
                 {
                     int value = 20;
 
-                    if (int.TryParse(AppSettings.XMLSettings.Elements("PPG").First().Attribute("Timeout").Value, out value))
+                    if (int.TryParse(AppSettings.XMLSettings.Element("IR").Attribute("Timeout").Value, out value))
                     {
                         return value;
                     }
@@ -96,6 +155,43 @@ namespace MMSC.API
                 }
             }
 
+        }
+
+        public class OPERATORS
+        {
+            public class Operator
+            {
+               public string Name { get; set; }
+                public string Domain { get; set; }
+                public bool IsInternal { get; set; }
+                public Operator()
+                {
+
+                }
+
+            }
+           
+
+            public static Operator GetOperatorInfo(string name)
+            {
+                Operator op = null;
+                try
+                {
+                    var xml = AppSettings.XMLSettings.Element("OPERATORS").Elements("OPERATOR").First(item => item.Attribute("Name").Value == name); ;
+                    op = new Operator();
+                    op.Name = xml.Attribute("Name").Value;
+                    op.Domain = xml.Attribute("Domain").Value;
+                    op.IsInternal = xml.Attribute("IsInternal").Value == "1" ? true : false;
+                    return op;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return null;
+                }
+                
+            }
+            
         }
     }
 }

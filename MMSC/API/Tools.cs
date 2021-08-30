@@ -48,5 +48,20 @@ namespace MMSC.API
             }
             return sb.ToString();
         }
+
+        public static string GenerateRandom()
+        {
+            Guid g = Guid.NewGuid();
+            string random = g.ToString();
+            return random.Substring(0, 8);
+        }
+        public static byte[] GetBytes(string hexString)
+        {
+            return Enumerable
+                .Range(0, hexString.Length)
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(hexString.Substring(x, 2), 16))
+                .ToArray();
+        }
     }
 }

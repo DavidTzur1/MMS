@@ -85,7 +85,7 @@ namespace MMSC.Controllers
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x83])
                 {
                     message.From = $"{from}/TYPE=PLMN";
-                    DBApi.InsertNotify.Execute(message);
+                    //DBApi.InsertNotification.Execute(message);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -99,7 +99,7 @@ namespace MMSC.Controllers
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85])
                 {
                     message.From = $"{from}/TYPE=PLMN";
-                    DBApi.InsertNotify.Execute(message);
+                   // DBApi.InsertNotification.Execute(message);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
                     {

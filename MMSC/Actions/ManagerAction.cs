@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using MMSC.API;
+using MMSC.Encoders;
 using MMSC.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks.Dataflow;
 using System.Web;
+using static MMSC.API.AppSettings.OPERATORS;
 
 namespace MMSC.Actions
 {
@@ -15,21 +17,17 @@ namespace MMSC.Actions
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static ActionBlock<MMSMessageModel> ActionBlock;
-        //static ExecutionDataflowBlockOptions options;
-        private static SmtpClient smtpClient;
 
-        private static HttpClient httpClient;
 
         static ManagerAction()
         {
 
-            smtpClient = new SmtpClient();
-            httpClient = new HttpClient();
-            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = AppSettings.PPG.BoundedCapacity, MaxDegreeOfParallelism = AppSettings.PPG.MaxDegreeOfParallelism });
+            ActionBlock = new ActionBlock<MMSMessageModel>(fn, new ExecutionDataflowBlockOptions { BoundedCapacity = AppSettings.MANAGER.BoundedCapacity, MaxDegreeOfParallelism = AppSettings.MANAGER.MaxDegreeOfParallelism });
         }
 
         static Action<MMSMessageModel> fn = async req =>
         {
+          
             try
             {
                 foreach (var item in req.To)
@@ -40,6 +38,52 @@ namespace MMSC.Actions
                     }
                     else
                     {
+                        IRResponseModel resp = await API.GetSubscriptionOperator.ExecuteAsync(item);
+                        if(resp.Status == 0)
+                        {
+                            string operatorName; 
+                            if(resp.Info.TryGetValue("OPERATOR_NAME",out operatorName))
+                            {
+                                Operator op = AppSettings.OPERATORS.GetOperatorInfo(operatorName);
+                                if (op.IsInternal)
+                                {
+                                    
+                                    //Sent mms notification
+                                    MMSNotificationModel notification = new MMSNotificationModel() {MessageType= "m-notification-ind", From =req.From,To= item,Expiry=req.Expiry ,MessageSize=req.MessageSize,MessageID=req.MessageID};
+                                    int rowsAffected =await DBApi.InsertNotification.Execute(notification);
+                                    if (rowsAffected == 1)
+                                    {
+                                        notification.Status = await PPG.PostNotificationAsync(notification);
+                                        await DBApi.UpdateNotification.Execute(notification);
+
+
+                                    }
+                                    else
+                                    {
+                                        log.Error("Fail InsertNotification ");
+                                    }
+                                    log.Info(notification.ToString());
+           
+                                }
+                                else
+                                {
+                                    //SMTP message
+                                }
+                            }
+                            else
+                            {
+
+                            }
+
+                            
+                            
+
+                        }
+                        else
+                        {
+                            log.Warn(req.ToString(item));
+
+                        }
 
                     }
                 }

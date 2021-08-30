@@ -42,7 +42,11 @@ namespace MMSC.Models
 
         public override string ToString()
         {
-            return $"{TransactionId}|{MessageType}|{From}|{string.Join(";", To)}";
+            return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{From}|{string.Join(";", To)}";
+        }
+        public string ToString(string to)
+        {
+            return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{From}|{to}";
         }
 
 
