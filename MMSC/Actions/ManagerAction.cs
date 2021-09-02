@@ -34,6 +34,20 @@ namespace MMSC.Actions
                 {
                     if (item.Contains("@"))
                     {
+                        //SMTP message
+                        MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { item }, Parts = req.Parts };
+                        SMTPMessageModel smtpMessage = new SMTPMessageModel(message);
+                        if (await SMTPClient.Send(smtpMessage))
+                        {
+                            message.Status = 0;
+
+                        }
+                        else
+                        {
+                            message.Status = -1;
+                        }
+                        int rowsAffected = await DBApi.InsertNotification.Execute(message);
+                        log.Info(message);
 
                     }
                     else
@@ -68,6 +82,19 @@ namespace MMSC.Actions
                                 else
                                 {
                                     //SMTP message
+                                    MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID,From=req.From,To= new List<string> { item },Parts=req.Parts };
+                                    SMTPMessageModel smtpMessage = new SMTPMessageModel(message, op.Domain);
+                                    if(await SMTPClient.Send(smtpMessage))
+                                    {
+                                        message.Status = 0;
+                                       
+                                    }
+                                    else
+                                    {
+                                        message.Status = -1;
+                                    }
+                                    int rowsAffected = await DBApi.InsertNotification.Execute(message);
+                                    log.Info(message);
                                 }
                             }
                             else

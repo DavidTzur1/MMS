@@ -32,7 +32,8 @@ namespace MMSC.Controllers
                 };
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
 
-                //log.Debug("End Get");
+                MMSNotificationModel notif = new MMSNotificationModel() { PushID = messageid, MessageType = message.MessageType, TransactionID = message.TransactionId, MessageID = message.MessageID, From = message.From, To = message.To.First() };
+                await DBApi.InsertNotification.Execute(notif);
                 return ResponseMessage(result);
             }
             catch (Exception ex)
@@ -42,7 +43,8 @@ namespace MMSC.Controllers
             }
             finally
             {
-                log.Debug(message.ToString());
+                
+                log.Info(message.ToString());
             }
 
 

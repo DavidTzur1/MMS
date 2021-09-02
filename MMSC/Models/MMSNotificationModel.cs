@@ -18,7 +18,7 @@ namespace MMSC.Models
     {
         public string MessageType { get; set; } = string.Empty;
         public string TransactionID { get; set; }
-        public string PushID { get; private set; }
+        public string PushID { get; set; }
         public string Version { get; set; } = "1.2";
         public string To { get; set; }
         public string MessageID { get; set; }

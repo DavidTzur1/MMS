@@ -170,14 +170,18 @@ namespace MMSC.Decoders
 
         private byte[] PDU;
         int pos = 0;
+        MMSMessageModel message = new MMSMessageModel();
+
         public MM1Decoder(Byte[] pdu)
         {
             PDU = pdu;
         }
 
+        
+
         public MMSMessageModel Parse()
         {
-            MMSMessageModel message = new MMSMessageModel();
+            //MMSMessageModel message = new MMSMessageModel();
             pos = 0;
             try
             {
@@ -317,9 +321,21 @@ namespace MMSC.Decoders
                             byte[] data = new byte[PDU.Length - pos];
                             Array.Copy(PDU, pos, data, 0, PDU.Length - pos);
                             message.Data = Tools.GetHexString(data);
+                            parseParts();
                             pos = PDU.Length;
 
                             break;
+                        //default:
+                        //    if (PDU[this.pos - 1] > 127)
+                        //    {
+                        //        log.Warn($"Unknown field {PDU[this.pos - 1]} for pos { this.pos}");
+                        //    }
+                        //    else
+                        //    {
+                        //        this.pos--;
+                                
+                        //    }
+                        //    break;
 
 
                     }
@@ -334,12 +350,137 @@ namespace MMSC.Decoders
 
         }
 
-        /*-------------------------------------------------------------------*
-       * Parse message-class *
-       * message-class-value = Class-identifier | Token-text *
-       * Class-idetifier = Personal | Advertisement | Informational | Auto *
-       *-------------------------------------------------------------------*/
-        private String parseMessageClassValue()
+        /*---------------------------------------------------------------------*
+       * Function called after header has been parsed. This function fetches *
+       * the different parts in the MMS. Returns true until it encounter end *
+       * of data. *
+       *---------------------------------------------------------------------*/
+        public bool parseParts()
+        {
+            if (this.pos >= PDU.Length) return false;
+            int count = this.parseUint();
+            for (int i = 0; i < count; i++)
+            {
+                MMSPartModel part = new MMSPartModel();
+               // part.Headerlen  = this.parseUint();
+                int headerlen = this.parseUint();
+                //part.Datalen = this.parseUint();
+                int datalen = this.parseUint();
+
+                int startPos = pos;
+                //Content Type                           
+                if (PDU[this.pos] <= 31)
+                {
+                    int len = this.parseValueLength();
+                    int pos1 = pos;
+                    if (PDU[this.pos] > 31 && PDU[this.pos] < 128)
+                    {
+                        part.ContentType = this.parseTextString();
+                    }
+                    else
+                    {
+                        part.ContentType = MMS_CONTENT_TYPES[this.parseIntegerValue()];
+                    }
+                 
+                }
+                else if (PDU[this.pos] < 128)
+                {
+                   // contentType = this.parseTextString();
+                   part.ContentType = parseTextString();
+                }
+                else
+                {
+                    part.ContentType = MMS_CONTENT_TYPES[this.parseShortInteger()];
+                }
+
+                //Header
+                bool flag = true;
+                while (pos < (headerlen + startPos) && flag)
+                {
+                    switch (PDU[pos++])
+                    {
+                        case 0x85: //name
+                        case 0x97:
+
+                            part.Name=parseTextString();
+                            break;
+                        case 0x81: //Charset
+
+                            if (PDU[pos] > 127)
+                            {
+                                string value = "";
+                                if (MMS_CHARSET.TryGetValue(PDU[pos], out value))
+                                {
+                                    ++pos;
+
+                                    part.Charset = value;
+                                }
+                                else
+                                {
+                                    ++pos;
+                                    log.Warn("not support this Charset, ignore it.");
+                                }
+                            }
+                            else
+                            {
+                                
+                                part.Charset = parseTextString();
+                            }
+                            break;
+                        case 0x8E: //Content-Location
+
+                            part.ContentLocation = parseTextString();
+                            break;
+                        case 0xc0://Content-ID
+
+                            part.ContentId = parseTextString().Trim('"');
+                            break;
+                        case 0xae://Content-Disposition
+
+                            int len = parseValueLength();
+                            pos += len;
+                            break;
+                        default:
+                            flag = false;
+                            log.Warn($"Unknown Header :{PDU[pos - 1]}");
+
+                            break;
+
+                    }
+                }
+
+                pos = startPos + headerlen;
+
+                //Content
+                part.Content = new byte[datalen];
+                for (int j = 0; j < datalen; j++)
+                {
+                    part.Content[j] = PDU[pos++];
+
+                }
+                
+
+                message.Parts.Add(part);
+
+
+               
+
+
+
+            }
+
+
+                return true;
+
+        }
+
+
+            /*-------------------------------------------------------------------*
+           * Parse message-class *
+           * message-class-value = Class-identifier | Token-text *
+           * Class-idetifier = Personal | Advertisement | Informational | Auto *
+           *-------------------------------------------------------------------*/
+            private String parseMessageClassValue()
         {
             if (PDU[this.pos] > 127)
                 return MMS_MESSAGE_CLASS[this.PDU[this.pos++]];
