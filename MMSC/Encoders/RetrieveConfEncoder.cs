@@ -106,32 +106,33 @@ namespace MMSC.Encoders
 
                 //Contant Type 
                 outBuffer.WriteByte(CONTENT_TYPE);
-                var list = ContentType.Split(';').ToList();
-                string start="";
-                string type="";
-                foreach(var item in list.Skip(1))
-                {
-                    var key = item.Split('=').FirstOrDefault();
-                    var value = item.Split('=').LastOrDefault();
+                outBuffer.WriteByte(0xa3);//application/vnd.wap.multipart.mixed
+                //var list = ContentType.Split(';').ToList();
+                //string start="";
+                //string type="";
+                //foreach(var item in list.Skip(1))
+                //{
+                //    var key = item.Split('=').FirstOrDefault();
+                //    var value = item.Split('=').LastOrDefault();
 
-                    switch (key.ToLower().Trim())
-                    {
-                        case "start":
-                            start = value; ;
-                            break;
-                        case "type":
-                            type = value;
-                            break;
-                    }
-                }
-                outBuffer.WriteByte((byte)(start.Length + type.Length + 2 +3)); //len
-                outBuffer.WriteByte(0xb3);//application/vnd.wap.multipart.related
-                outBuffer.WriteByte(0x89);//type
-                outBuffer.Write(Encoding.UTF8.GetBytes(type), 0, type.Length);
-                outBuffer.WriteByte(0x0);
-                outBuffer.WriteByte(0x8a); //start
-                outBuffer.Write(Encoding.UTF8.GetBytes(start), 0, start.Length);
-                outBuffer.WriteByte(0x0);
+                //    switch (key.ToLower().Trim())
+                //    {
+                //        case "start":
+                //            start = value; ;
+                //            break;
+                //        case "type":
+                //            type = value;
+                //            break;
+                //    }
+                //}
+                //outBuffer.WriteByte((byte)(start.Length + type.Length + 2 +3)); //len
+                //outBuffer.WriteByte(0xb3);//application/vnd.wap.multipart.related
+                //outBuffer.WriteByte(0x89);//type
+                //outBuffer.Write(Encoding.UTF8.GetBytes(type), 0, type.Length);
+                //outBuffer.WriteByte(0x0);
+                //outBuffer.WriteByte(0x8a); //start
+                //outBuffer.Write(Encoding.UTF8.GetBytes(start), 0, start.Length);
+                //outBuffer.WriteByte(0x0);
 
                 //Data
                 byte[] data = Tools.GetBytes(Data);

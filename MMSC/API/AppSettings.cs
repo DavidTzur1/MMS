@@ -157,6 +157,32 @@ namespace MMSC.API
 
         }
 
+        public class SMTPServer
+        {
+            public static string IP
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("SMTPServer").Attribute("IP").Value;
+
+                }
+            }
+
+            public static int Port
+            {
+                get
+                {
+                    int value = 25;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Element("SMTPServer").Attribute("Port").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 25;
+                }
+            }
+
+        }
         public class OPERATORS
         {
             public class Operator

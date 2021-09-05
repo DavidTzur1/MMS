@@ -1,3 +1,5 @@
+using MMSC.API;
+using MMSC.SMTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace MMSC
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            SMTPServerManager.Run();
         }
     }
 }

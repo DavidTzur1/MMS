@@ -31,7 +31,7 @@ namespace MMSC.Models
         public string ResponseText { get; set; }
         public int Status { get; set; } = 0;
         public int ReportAllowed { get; set; }
-        public string ContentType { get; set; }
+        public string ContentType { get; set; } = "application/vnd.wap.multipart.related";
         public string ContentTypeRaw { get; set; } = string.Empty;
         public string Data { get; set; } 
         public string PushID { get; set; } = string.Empty;
