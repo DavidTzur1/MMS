@@ -55,6 +55,7 @@ namespace MMSC.Controllers
                 {
                     message.From = $"{from}/TYPE=PLMN";
                     message.MessageSize = contentLength;
+                    message.Sender = "oklik.net";
 
                     string messageID = DBApi.InsertMessage.Execute(message);
 

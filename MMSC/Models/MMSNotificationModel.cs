@@ -20,6 +20,7 @@ namespace MMSC.Models
         public string TransactionID { get; set; }
         public string PushID { get; set; }
         public string Version { get; set; } = "1.2";
+        public string Domain { get; set; } = string.Empty;
         public string To { get; set; }
         public string MessageID { get; set; }
         public string From { get; set; }

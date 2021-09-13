@@ -15,8 +15,9 @@ namespace MMSC.Models
         public string CC { get; set; }
         public string ContentLocation { get; set; }
         public string Subject { get; set; } = "MMS Message";
+        public string Sender { get; set; } = "";
         public string From { get; set; }
-        public string Sender { get; set; }
+        
         public string MessageID { get; set; }
         public long MessageSize { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
@@ -28,7 +29,7 @@ namespace MMSC.Models
         public int DeliveryReport { get; set; }
         public int ReadReport { get; set; }
         public int ResponseStatus { get; set; }
-        public string ResponseText { get; set; }
+        public string ResponseText { get; set; } = "";
         public int Status { get; set; } = 0;
         public int ReportAllowed { get; set; }
         public string ContentType { get; set; } = "application/vnd.wap.multipart.related";

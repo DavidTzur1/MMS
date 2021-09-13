@@ -24,6 +24,11 @@ namespace MMSC
                routeTemplate: "servlets/{controller}/{id}",
                defaults: new { id = RouteParameter.Optional }
            );
+            config.Routes.MapHttpRoute(
+               name: "MM7",
+               routeTemplate: "vasp/servlet/{controller}/{id}",
+               defaults: new { id = RouteParameter.Optional }
+           );
         }
     }
 }

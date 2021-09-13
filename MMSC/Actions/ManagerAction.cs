@@ -63,7 +63,7 @@ namespace MMSC.Actions
                                 {
                                     
                                     //Sent mms notification
-                                    MMSNotificationModel notification = new MMSNotificationModel() {MessageType= "m-notification-ind", From =req.From,To= item,Expiry=req.Expiry ,MessageSize=req.MessageSize,MessageID=req.MessageID};
+                                    MMSNotificationModel notification = new MMSNotificationModel() {MessageType= "m-notification-ind", From =req.From,To= item,Expiry=req.Expiry ,MessageSize=req.MessageSize,MessageID=req.MessageID,Domain=op.Domain};
                                     int rowsAffected =await DBApi.InsertNotification.Execute(notification);
                                     if (rowsAffected == 1)
                                     {
@@ -93,7 +93,9 @@ namespace MMSC.Actions
                                     {
                                         message.Status = -1;
                                     }
-                                    int rowsAffected = await DBApi.InsertNotification.Execute(message);
+
+                                    MMSNotificationModel notification = new MMSNotificationModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, Domain = op.Domain };
+                                    int rowsAffected = await DBApi.InsertNotification.Execute(notification);
                                     log.Info(message);
                                 }
                             }

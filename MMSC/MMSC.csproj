@@ -130,6 +130,7 @@
     <Compile Include="API\SMTPClient.cs" />
     <Compile Include="API\Tools.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MessagerouterController.cs" />
     <Compile Include="Controllers\MMSController.cs" />
     <Compile Include="Controllers\RetrieveController.cs" />
     <Compile Include="DBApi\GetMessageByPushID.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="DBApi\InsertNotification.cs" />
     <Compile Include="DBApi\InsertNotificationResp.cs" />
     <Compile Include="DBApi\UpdateNotification.cs" />
+    <Compile Include="Decoders\Decoder.cs" />
     <Compile Include="Decoders\MM1Decoder.cs" />
     <Compile Include="Decoders\MM4Decoder.cs" />
     <Compile Include="Decoders\MM7Decoder.cs" />
@@ -147,6 +149,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\IRResponseModel.cs" />
+    <Compile Include="Models\MessagerouterResponseModel.cs" />
     <Compile Include="Models\MMSMessageModel.cs" />
     <Compile Include="Models\MMSNotificationModel.cs" />
     <Compile Include="Models\MMSPartModel.cs" />

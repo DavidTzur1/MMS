@@ -27,6 +27,7 @@ namespace MMSC.DBApi
                     cmd.Parameters.AddWithValue("@TransactionID", message.TransactionId);
                     cmd.Parameters.AddWithValue("@Version", message.Version);
                     cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Sender", message.Sender);
                     cmd.Parameters.AddWithValue("@From", message.From);
                     cmd.Parameters.AddWithValue("@To", string.Join(";", message.To));
                     cmd.Parameters.AddWithValue("@Subject", message.Subject);
@@ -39,6 +40,8 @@ namespace MMSC.DBApi
                     cmd.Parameters.AddWithValue("@ContentType", message.ContentType);
                     cmd.Parameters.AddWithValue("@ContentTypeRaw", message.ContentTypeRaw);
                     cmd.Parameters.AddWithValue("@Data", message.Data);
+                    cmd.Parameters.AddWithValue("@ResponseStatus", message.ResponseStatus);
+                    cmd.Parameters.AddWithValue("@ResponseText", message.ResponseText);
 
 
                     con.Open();

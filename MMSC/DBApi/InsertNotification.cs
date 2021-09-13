@@ -30,6 +30,7 @@ namespace MMSC.DBApi
                         cmd.Parameters.AddWithValue("@PushID", notif.PushID);
                         cmd.Parameters.AddWithValue("@MessageID", notif.MessageID);
                         cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Domain", notif.Domain);
                         cmd.Parameters.AddWithValue("@To", notif.To);
                         cmd.Parameters.AddWithValue("@Status", notif.Status);
                         con.Open();

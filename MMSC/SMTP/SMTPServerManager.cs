@@ -23,7 +23,7 @@ namespace MMSC.SMTP
 
             var serviceProvider = new ServiceProvider();
             serviceProvider.Add(new SampleMessageStore());
-            //serviceProvider.Add(new SampleMailboxFilter());
+            serviceProvider.Add(new SampleMailboxFilter());
            // serviceProvider.Add(new SampleUserAuthenticator());
 
             var smtpServer = new SmtpServer.SmtpServer(options, serviceProvider);

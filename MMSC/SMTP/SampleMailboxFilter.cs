@@ -10,10 +10,13 @@ using System.Web;
 
 namespace MMSC.SMTP
 {
-    public class SampleMailboxFilter : IMailboxFilter, IMailboxFilterFactory
+    public class SampleMailboxFilter : IMailboxFilter
     {
-        public  Task<MailboxFilterResult> CanAcceptFromAsync(ISessionContext context, IMailbox @from, int size, CancellationToken cancellationToken)
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public Task<MailboxFilterResult> CanAcceptFromAsync(ISessionContext context, IMailbox @from, int size, CancellationToken cancellationToken)
         {
+            log.Debug(@from.Host);
             return Task.FromResult(MailboxFilterResult.Yes);
             //if (String.Equals(@from.Host, "test.com"))
             //{
@@ -28,9 +31,9 @@ namespace MMSC.SMTP
             return Task.FromResult(MailboxFilterResult.Yes);
         }
 
-        public IMailboxFilter CreateInstance(ISessionContext context)
-        {
-            return new SampleMailboxFilter();
-        }
+        //public IMailboxFilter CreateInstance(ISessionContext context)
+        //{
+        //    return new SampleMailboxFilter();
+        //}
     }
 }
