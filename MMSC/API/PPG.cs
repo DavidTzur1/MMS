@@ -25,7 +25,7 @@ namespace MMSC.API
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
             client.DefaultRequestHeaders.ExpectContinue = false;
         }
-        public static  async Task<int> PostNotificationAsync(MMSNotificationModel notification)
+        public static  async Task<int> PostNotificationAsync(PPGRequestModel notification)
         {
             try
             {

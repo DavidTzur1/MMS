@@ -547,5 +547,14 @@ namespace MMSC.Decoders
                 { 0x4A, "application/vnd.oma.drm.rights+xml" },
                 { 0x4B, "application/vnd.oma.drm.rights+wbxml" }
             };
+
+        public static string DeviceAddress(string address)
+        {
+            string str;
+            str = address.TrimStart(new char[] { '+', '0' });
+            str = str.StartsWith("972") ? str:$"972{str}";
+            str = str.Trim().EndsWith("/TYPE=PLMN") ? str.Trim() : $"{str.Trim()}/TYPE=PLMN";
+            return str;
+        }
     }
 }

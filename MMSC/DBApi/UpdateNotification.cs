@@ -14,7 +14,7 @@ namespace MMSC.DBApi
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static async Task<int> Execute(MMSNotificationModel notif)
+        public static async Task<int> Execute(MMSMessageEventModel notif)
         {
             try
             {

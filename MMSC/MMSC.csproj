@@ -134,7 +134,9 @@
     <Compile Include="Controllers\MMSController.cs" />
     <Compile Include="Controllers\RetrieveController.cs" />
     <Compile Include="DBApi\GetMessageByPushID.cs" />
+    <Compile Include="DBApi\GetMessageEventInfo.cs" />
     <Compile Include="DBApi\InsertMessage.cs" />
+    <Compile Include="DBApi\InsertMessageEvent.cs" />
     <Compile Include="DBApi\InsertNotification.cs" />
     <Compile Include="DBApi\InsertNotificationResp.cs" />
     <Compile Include="DBApi\UpdateNotification.cs" />
@@ -150,9 +152,11 @@
     </Compile>
     <Compile Include="Models\IRResponseModel.cs" />
     <Compile Include="Models\MessagerouterResponseModel.cs" />
+    <Compile Include="Models\MMSMessageEventModel.cs" />
     <Compile Include="Models\MMSMessageModel.cs" />
     <Compile Include="Models\MMSNotificationModel.cs" />
     <Compile Include="Models\MMSPartModel.cs" />
+    <Compile Include="Models\PPGRequestModel.cs" />
     <Compile Include="Models\PPGResponseModel.cs" />
     <Compile Include="Models\SMTPMessageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

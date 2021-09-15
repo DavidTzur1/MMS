@@ -63,11 +63,17 @@ namespace MMSC.Actions
                                 {
                                     
                                     //Sent mms notification
-                                    MMSNotificationModel notification = new MMSNotificationModel() {MessageType= "m-notification-ind", From =req.From,To= item,Expiry=req.Expiry ,MessageSize=req.MessageSize,MessageID=req.MessageID,Domain=op.Domain};
-                                    int rowsAffected =await DBApi.InsertNotification.Execute(notification);
+                                    //MMSNotificationModel notification = new MMSNotificationModel() {MessageType= "m-notification-ind", From =req.From,To= item,Expiry=req.Expiry ,MessageSize=req.MessageSize,MessageID=req.MessageID,Domain=op.Domain};
+                                    //int rowsAffected =await DBApi.InsertNotification.Execute(notification);
+
+                                    PPGRequestModel ppgReq = PPGRequestModel.Create(req.MessageID,req.From, item, req.Expiry, req.MessageSize);
+                                    MMSMessageEventModel notification = new MMSMessageEventModel() {TransactionID=ppgReq.TransactionID, MessageType = "m-notification-ind", From = req.From, To = item, PushID = ppgReq.PushID, MessageID = req.MessageID,DomainSender=req.Sender,DomainRcpt=op.Domain };
+                                    int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
                                     if (rowsAffected == 1)
                                     {
-                                        notification.Status = await PPG.PostNotificationAsync(notification);
+                                        notification.Status = await PPG.PostNotificationAsync(ppgReq);
+                                        notification.Status = notification.Status;
+                                        //await DBApi.InsertMessageEvent.Execute(notification);
                                         await DBApi.UpdateNotification.Execute(notification);
 
 

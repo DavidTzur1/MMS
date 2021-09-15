@@ -35,7 +35,7 @@ namespace MMSC.Controllers
                 string from = "";
                 if (Request.Headers.TryGetValues("X-Wap-MSISDN", out headerValues))
                 {
-                    from = headerValues.FirstOrDefault();
+                    from = Decoder.DeviceAddress(headerValues.FirstOrDefault());
                 }
                 else
                 {
@@ -51,9 +51,9 @@ namespace MMSC.Controllers
                 MM1Decoder decoder = new MM1Decoder(body);
                 message = decoder.Parse();
 
-                if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x80])
+                if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x80]) //{0x80, "m-send-req"}
                 {
-                    message.From = $"{from}/TYPE=PLMN";
+                    message.From = from;
                     message.MessageSize = contentLength;
                     message.Sender = "oklik.net";
 
@@ -79,14 +79,22 @@ namespace MMSC.Controllers
                         Content = new StreamContent(new MemoryStream(sendConf.Encode()))
                     };
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    //log.Info(message.ToString());
+                    log.Info(message.ToString());
                     return ResponseMessage(result);
 
                 }
-                else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x83])
+                else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x83]) //{0x83, "m-notifyresp-ind"}
                 {
-                    message.From = $"{from}/TYPE=PLMN";
-                    await DBApi.InsertNotificationResp.Execute(message);
+                   
+                    //MMSNotificationModel notif = new MMSNotificationModel() {TransactionID=message.TransactionId,MessageType=message.MessageType,Status=message.Status,To=from };
+                    //await DBApi.InsertNotificationResp.Execute(notif);
+
+                    MMSMessageEventModel notifyresp = await DBApi.GetMessageEventInfo.Execute(message.TransactionId);
+                    notifyresp.TransactionID = message.TransactionId;
+                    notifyresp.MessageType = message.MessageType;
+                    notifyresp.Status = message.Status;
+                    notifyresp.To = from;
+                    await DBApi.InsertMessageEvent.Execute(notifyresp);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -94,13 +102,20 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    //log.Info(message.ToString());
+                    log.Info(notifyresp.ToString());
                     return ResponseMessage(result);
                 }
-                else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85])
+                else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85]) //{0x85, "m-acknowledge-ind"}
                 {
-                    message.From = $"{from}/TYPE=PLMN";
-                    await DBApi.InsertNotificationResp.Execute(message);
+                    //message.From = $"{from}/TYPE=PLMN";
+                    //await DBApi.InsertNotificationResp.Execute(message);
+
+                    MMSMessageEventModel acknowledge = await DBApi.GetMessageEventInfo.Execute(message.TransactionId);
+                    acknowledge.TransactionID = message.TransactionId;
+                    acknowledge.MessageType = message.MessageType;
+                    acknowledge.Status = message.Status;
+                    acknowledge.To = from;
+                    await DBApi.InsertMessageEvent.Execute(acknowledge);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -108,7 +123,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    //log.Info(message.ToString());
+                    log.Info(acknowledge.ToString());
                     return ResponseMessage(result);
 
                 }
@@ -124,6 +139,7 @@ namespace MMSC.Controllers
             catch (Exception ex)
             {
                 log.Debug(ex);
+                log.Info(message.ToString());
                 return null;
             }
             finally
