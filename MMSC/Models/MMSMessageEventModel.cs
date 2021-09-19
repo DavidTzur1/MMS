@@ -9,7 +9,7 @@ namespace MMSC.Models
     {
         public string MessageType { get; set; } = string.Empty;
         public string TransactionID { get; set; }
-        public string PushID { get; set; }
+        public string PushID { get; set; } = string.Empty;
         public string MessageID { get; set; }
         public string DomainSender { get; set; } = string.Empty;
         public string From { get; set; } 

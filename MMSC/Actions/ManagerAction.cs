@@ -15,6 +15,7 @@ namespace MMSC.Actions
     public class ManagerAction
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog cdr = log4net.LogManager.GetLogger("cdr");
 
         public static ActionBlock<MMSMessageModel> ActionBlock;
 
@@ -63,8 +64,6 @@ namespace MMSC.Actions
                                 {
                                     
                                     //Sent mms notification
-                                    //MMSNotificationModel notification = new MMSNotificationModel() {MessageType= "m-notification-ind", From =req.From,To= item,Expiry=req.Expiry ,MessageSize=req.MessageSize,MessageID=req.MessageID,Domain=op.Domain};
-                                    //int rowsAffected =await DBApi.InsertNotification.Execute(notification);
 
                                     PPGRequestModel ppgReq = PPGRequestModel.Create(req.MessageID,req.From, item, req.Expiry, req.MessageSize);
                                     MMSMessageEventModel notification = new MMSMessageEventModel() {TransactionID=ppgReq.TransactionID, MessageType = "m-notification-ind", From = req.From, To = item, PushID = ppgReq.PushID, MessageID = req.MessageID,DomainSender=req.Sender,DomainRcpt=op.Domain };
@@ -72,10 +71,7 @@ namespace MMSC.Actions
                                     if (rowsAffected == 1)
                                     {
                                         notification.Status = await PPG.PostNotificationAsync(ppgReq);
-                                        notification.Status = notification.Status;
-                                        //await DBApi.InsertMessageEvent.Execute(notification);
                                         await DBApi.UpdateNotification.Execute(notification);
-
 
                                     }
                                     else
@@ -83,7 +79,8 @@ namespace MMSC.Actions
                                         log.Error("Fail InsertNotification ");
                                     }
                                     log.Info(notification.ToString());
-           
+                                    cdr.Info(notification.ToString());
+
                                 }
                                 else
                                 {
@@ -100,9 +97,12 @@ namespace MMSC.Actions
                                         message.Status = -1;
                                     }
 
-                                    MMSNotificationModel notification = new MMSNotificationModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, Domain = op.Domain };
-                                    int rowsAffected = await DBApi.InsertNotification.Execute(notification);
-                                    log.Info(message);
+
+                                    MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = op.Domain,DomainSender=req.Sender };
+                                    int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
+
+                                    log.Info(notification.ToString());
+                                    cdr.Info(notification.ToString());
                                 }
                             }
                             else

@@ -23,7 +23,7 @@ namespace MMSC.Controllers
             MMSMessageModel message = null; ;
             try
             {
-                cdr.Info("Test");
+                //cdr.Info("Test");
                 message = await MMSC.DBApi.GetMessageByPushID.Execute(messageid);
                 message.MessageType = "m-retrieve-conf";
                 RetrieveConfEncoder retrieveConf = new RetrieveConfEncoder() { TransactionID = message.TransactionId, MessageID = message.MessageID, From = message.From, To = message.To.First(), ContentType = message.ContentType, Data = message.Data };
@@ -35,19 +35,16 @@ namespace MMSC.Controllers
                 };
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
 
-                MMSNotificationModel notif = new MMSNotificationModel() { PushID = messageid, MessageType = message.MessageType, TransactionID = message.TransactionId, MessageID = message.MessageID, From = message.From, To = message.To.First() };
-                await DBApi.InsertNotification.Execute(notif);
+                MMSMessageEventModel notif = new MMSMessageEventModel() { PushID = messageid, MessageType = message.MessageType, TransactionID = message.TransactionId, MessageID = message.MessageID,DomainSender=message.Sender, From = message.From, To = message.To.First(),DomainRcpt= "oklik.net" };
+                await DBApi.InsertMessageEvent.Execute(notif);
+                log.Info(notif.ToString());
+                cdr.Info(notif.ToString());
                 return ResponseMessage(result);
             }
             catch (Exception ex)
             {
                 log.Error(ex);
                 return null;
-            }
-            finally
-            {
-                
-                log.Info(message.ToString());
             }
 
 

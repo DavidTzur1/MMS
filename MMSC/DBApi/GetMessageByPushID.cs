@@ -39,6 +39,7 @@ namespace MMSC.DBApi
                             {
                                 res.MessageID = reader["MessageID"].ToString();
                                 res.TransactionId = reader["TransactionID"].ToString();
+                                res.Sender = reader["Sender"].ToString();
                                 res.From = reader["From"].ToString();
                                 res.To.Add(reader["To"].ToString());
                                 res.ContentType = reader["ContentType"].ToString();

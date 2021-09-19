@@ -18,6 +18,7 @@ namespace MMSC.Controllers
     public class MMSController : ApiController
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog cdr = log4net.LogManager.GetLogger("cdr");
 
         [HttpPost]
         public async Task<IHttpActionResult> Post()
@@ -86,9 +87,6 @@ namespace MMSC.Controllers
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x83]) //{0x83, "m-notifyresp-ind"}
                 {
                    
-                    //MMSNotificationModel notif = new MMSNotificationModel() {TransactionID=message.TransactionId,MessageType=message.MessageType,Status=message.Status,To=from };
-                    //await DBApi.InsertNotificationResp.Execute(notif);
-
                     MMSMessageEventModel notifyresp = await DBApi.GetMessageEventInfo.Execute(message.TransactionId);
                     notifyresp.TransactionID = message.TransactionId;
                     notifyresp.MessageType = message.MessageType;
@@ -102,6 +100,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
+                    cdr.Info(notifyresp.ToString());
                     log.Info(notifyresp.ToString());
                     return ResponseMessage(result);
                 }
@@ -123,6 +122,7 @@ namespace MMSC.Controllers
                     };
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
+                    cdr.Info(acknowledge.ToString());
                     log.Info(acknowledge.ToString());
                     return ResponseMessage(result);
 
@@ -139,13 +139,9 @@ namespace MMSC.Controllers
             catch (Exception ex)
             {
                 log.Debug(ex);
-                log.Info(message.ToString());
                 return null;
             }
-            finally
-            {
-                log.Info(message.ToString());
-            }
+            
         }
     }
 }
