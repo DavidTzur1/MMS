@@ -18,7 +18,7 @@ namespace MMSC.Actions
         private static readonly log4net.ILog cdr = log4net.LogManager.GetLogger("cdr");
 
         /// <summary>
-        /// 
+        ///  
         /// </summary>
 
         public static ActionBlock<MMSMessageModel> ActionBlock;
