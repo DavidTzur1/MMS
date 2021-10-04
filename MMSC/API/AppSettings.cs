@@ -19,6 +19,18 @@ namespace MMSC.API
             XMLSettings = XElement.Load(ConfigurationManager.AppSettings["XMLSettingsFile"]);
         }
 
+        public class Service
+        {
+            public static string Status
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("Service").Attribute("Status").Value;
+
+                }
+            }
+        }
+
         public class MANAGER
         {
             public static int MaxDegreeOfParallelism

@@ -133,6 +133,7 @@
     <Compile Include="Controllers\MessagerouterController.cs" />
     <Compile Include="Controllers\MMSController.cs" />
     <Compile Include="Controllers\RetrieveController.cs" />
+    <Compile Include="Controllers\ServiceStatusController.cs" />
     <Compile Include="DBApi\GetMessageByPushID.cs" />
     <Compile Include="DBApi\GetMessageEventInfo.cs" />
     <Compile Include="DBApi\InsertMessage.cs" />
