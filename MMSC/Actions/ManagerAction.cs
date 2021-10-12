@@ -51,8 +51,14 @@ namespace MMSC.Actions
                         {
                             message.Status = -1;
                         }
-                        int rowsAffected = await DBApi.InsertNotification.Execute(message);
-                        log.Info(message);
+                        //int rowsAffected = await DBApi.InsertNotification.Execute(message);
+                        //log.Info(message);
+
+                        MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = "mail", DomainSender = req.Sender };
+                        int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
+
+                        log.Info(notification.ToString());
+                        cdr.Info(notification.ToString());
 
                     }
                     else
