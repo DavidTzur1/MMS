@@ -209,6 +209,7 @@ namespace MMSC.API
 
             }
            
+            
 
             public static Operator GetOperatorInfo(string name)
             {
