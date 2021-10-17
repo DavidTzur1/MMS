@@ -51,8 +51,7 @@ namespace MMSC.Actions
                         {
                             message.Status = -1;
                         }
-                        //int rowsAffected = await DBApi.InsertNotification.Execute(message);
-                        //log.Info(message);
+
 
                         MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = "mail", DomainSender = req.Sender };
                         int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
@@ -70,6 +69,11 @@ namespace MMSC.Actions
                             if(resp.Info.TryGetValue("OPERATOR_NAME",out operatorName))
                             {
                                 Operator op = AppSettings.OPERATORS.GetOperatorInfo(operatorName);
+                                if(op==null)
+                                {
+                                    log.Warn($"The Operator {operatorName} Not suport mms (Not exist in AppSetting.xml).");
+                                    return;
+                                }
                                 if (op.IsInternal)
                                 {
                                     
@@ -117,11 +121,8 @@ namespace MMSC.Actions
                             }
                             else
                             {
-
+                                //log.Warn($"The operator {}")
                             }
-
-                            
-                            
 
                         }
                         else

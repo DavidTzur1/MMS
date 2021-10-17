@@ -106,8 +106,6 @@ namespace MMSC.Controllers
                 }
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85]) //{0x85, "m-acknowledge-ind"}
                 {
-                    //message.From = $"{from}/TYPE=PLMN";
-                    //await DBApi.InsertNotificationResp.Execute(message);
 
                     MMSMessageEventModel acknowledge = await DBApi.GetMessageEventInfo.Execute(message.TransactionId);
                     acknowledge.TransactionID = message.TransactionId;

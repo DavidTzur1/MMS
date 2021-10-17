@@ -45,6 +45,7 @@ namespace MMSC.SMTP
 
                
                 var mms = MM4Decoder.Parse(message);
+                
                 string messageID = DBApi.InsertMessage.Execute(mms);
                 mms.MessageID = messageID;
                 ManagerAction.ActionBlock.Post(mms);
