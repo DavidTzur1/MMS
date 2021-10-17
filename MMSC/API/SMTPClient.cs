@@ -22,6 +22,7 @@ namespace MMSC.API
                     //log.Debug($"Message From{message.From} To {message.To }");
                     await smtpClient.SendAsync(message.Data, message.From, new[] { message.To });
                     smtpClient.Disconnect(true);
+                    //
                     return true;
                 }
             }
