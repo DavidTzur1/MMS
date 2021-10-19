@@ -42,6 +42,8 @@ namespace MMSC.DBApi
                     cmd.Parameters.AddWithValue("@Data", message.Data);
                     cmd.Parameters.AddWithValue("@ResponseStatus", message.ResponseStatus);
                     cmd.Parameters.AddWithValue("@ResponseText", message.ResponseText);
+                    cmd.Parameters.AddWithValue("@MediaType", message.MediaType);
+
 
 
                     con.Open();

@@ -11,45 +11,34 @@ using System.Web;
 
 namespace MMSC.DBApi
 {
-    public class GetMessageByPushID
+    public class IsBlocked
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static async Task<MMSMessageModel> Execute(string pushID)
+        public static async Task<bool> Execute(string msisdn,int serviceCode)
         {
             try
             {
                 string constring = ConfigurationManager.ConnectionStrings["MMS"].ConnectionString;
-
-               // RetrieveConfEncoder res = new RetrieveConfEncoder();
-                MMSMessageModel res = new MMSMessageModel();
+                bool res = false;
                 using (SqlConnection con = new SqlConnection(constring))
                 {
-                    using (SqlCommand cmd = new SqlCommand("GetMessageByPushID", con))
+                    using (SqlCommand cmd = new SqlCommand("IsBlocked", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@PushID", pushID);
+                        cmd.Parameters.AddWithValue("@MSISDN", msisdn);
+                        cmd.Parameters.AddWithValue("@ServiceCode", serviceCode);
 
                         await con.OpenAsync();
-
 
                         using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
                             while (reader.Read())
                             {
-                                res.MessageID = reader["MessageID"].ToString();
-                                res.TransactionId = reader["TransactionID"].ToString();
-                                res.Sender = reader["Sender"].ToString();
-                                res.From = reader["From"].ToString();
-                                res.To.Add(reader["To"].ToString());
-                                res.ContentType = reader["ContentType"].ToString();
-                                res.Data = reader["Data"].ToString();
-                                res.MediaType= reader["MediaType"].ToString();
-                                // res.ContentType = Tools.FromHexString(reader["ContentType"].ToString());
-
+                               
+                                res = int.Parse(reader["IsBlocked"].ToString()) > 0;
                             }
                         }
-
 
                         con.Close();
                     }
@@ -59,7 +48,7 @@ namespace MMSC.DBApi
             catch (Exception ex)
             {
                 log.Error(ex);
-                return null;
+                return true;
             }
         }
     }

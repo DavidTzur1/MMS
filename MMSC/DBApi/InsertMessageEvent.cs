@@ -26,6 +26,7 @@ namespace MMSC.DBApi
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@MessageType", message.MessageType);
+                        cmd.Parameters.AddWithValue("@MediaType", message.MediaType);
                         cmd.Parameters.AddWithValue("@TransactionID", message.TransactionID);
                         cmd.Parameters.AddWithValue("@PushID", message.PushID);
                         cmd.Parameters.AddWithValue("@MessageID", message.MessageID);

@@ -1,11 +1,13 @@
 ﻿using MailKit.Net.Smtp;
 using MMSC.API;
+using MMSC.Decoders;
 using MMSC.Encoders;
 using MMSC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+//using System.Text;
 using System.Threading.Tasks.Dataflow;
 using System.Web;
 using static MMSC.API.AppSettings.OPERATORS;
@@ -40,7 +42,7 @@ namespace MMSC.Actions
                     if (item.Contains("@"))
                     {
                         //SMTP message
-                        MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { item }, Parts = req.Parts };
+                        MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ",MediaType=req.MediaType, TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { item }, Parts = req.Parts };
                         SMTPMessageModel smtpMessage = new SMTPMessageModel(message);
                         if (await SMTPClient.Send(smtpMessage))
                         {
@@ -53,7 +55,7 @@ namespace MMSC.Actions
                         }
 
 
-                        MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = "mail", DomainSender = req.Sender };
+                        MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ",MediaType=req.MediaType, TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = "mail", DomainSender = req.Sender };
                         int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
 
                         log.Info(notification.ToString());
@@ -62,6 +64,11 @@ namespace MMSC.Actions
                     }
                     else
                     {
+                        
+                        if ( await DBApi.IsBlocked.Execute(Decoder.DeviceAddress(item).Replace("/TYPE=PLMN", ""), 2)) 
+                        {
+                            log.Debug($"The Sub {item} is blocked");
+                        }
                         IRResponseModel resp = await API.GetSubscriptionOperator.ExecuteAsync(item);
                         if(resp.Status == 0)
                         {
@@ -80,7 +87,7 @@ namespace MMSC.Actions
                                     //Sent mms notification
 
                                     PPGRequestModel ppgReq = PPGRequestModel.Create(req.MessageID,req.From, item, req.Expiry, req.MessageSize);
-                                    MMSMessageEventModel notification = new MMSMessageEventModel() {TransactionID=ppgReq.TransactionID, MessageType = "m-notification-ind", From = req.From, To = item, PushID = ppgReq.PushID, MessageID = req.MessageID,DomainSender=req.Sender,DomainRcpt=op.Domain };
+                                    MMSMessageEventModel notification = new MMSMessageEventModel() {TransactionID=ppgReq.TransactionID, MessageType = "m-notification-ind", From = req.From, To = item, PushID = ppgReq.PushID, MessageID = req.MessageID,DomainSender=req.Sender,DomainRcpt=op.Domain,MediaType=req.MediaType };
                                     int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
                                     if (rowsAffected == 1)
                                     {
@@ -112,7 +119,7 @@ namespace MMSC.Actions
                                     }
 
 
-                                    MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = op.Domain,DomainSender=req.Sender };
+                                    MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = op.Domain,DomainSender=req.Sender ,MediaType=req.MediaType};
                                     int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
 
                                     log.Info(notification.ToString());

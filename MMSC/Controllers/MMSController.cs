@@ -1,4 +1,5 @@
 ﻿using MMSC.Actions;
+using MMSC.API;
 using MMSC.Decoders;
 using MMSC.Encoders;
 using MMSC.Models;
@@ -45,6 +46,8 @@ namespace MMSC.Controllers
                     return null;
                 }
 
+              
+
                 contentLength = (long)Request.Content.Headers.ContentLength;
 
                 ////////////////////////////////Check validation Request////////////////////////
@@ -59,12 +62,24 @@ namespace MMSC.Controllers
                     message.Sender = "oklik.net";
 
                     string messageID = DBApi.InsertMessage.Execute(message);
-
                     SendConfEncoder sendConf = new SendConfEncoder();
                     if (String.IsNullOrEmpty(messageID))
                     {
+                        message.MessageID = "";
                         sendConf.TransactionId = message.TransactionId;
                         sendConf.ResponseStatus = ResponseStatuses.ErrorNetworkProblem;
+                        sendConf.MessageID = "";
+                        message.ResponseStatus = ResponseStatuses.ErrorNetworkProblem;
+                    }
+                   
+                    
+                    else if( await DBApi.IsBlocked.Execute(from.Replace("/TYPE=PLMN",""),1))
+                    {
+                        message.MessageID = messageID;
+                        sendConf.TransactionId = message.TransactionId;
+                        sendConf.ResponseStatus = ResponseStatuses.ErrorServiceDenied;
+                        sendConf.MessageID = messageID;
+                        message.ResponseStatus = ResponseStatuses.ErrorServiceDenied;
                     }
                     else
                     {
@@ -73,6 +88,8 @@ namespace MMSC.Controllers
                         sendConf.TransactionId = message.TransactionId;
                         sendConf.ResponseStatus = ResponseStatuses.Ok;
                         sendConf.MessageID = messageID;
+                        message.ResponseStatus = ResponseStatuses.Ok;
+
                     }
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)

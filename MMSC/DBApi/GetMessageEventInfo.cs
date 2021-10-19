@@ -42,7 +42,8 @@ namespace MMSC.DBApi
                                 res.From = reader["From"].ToString();
                                 res.DomainRcpt = reader["DomainRcpt"].ToString();
                                 res.To= reader["To"].ToString();
-                                
+                                res.MediaType = reader["MediaType"].ToString();
+
                             }
                         }
 

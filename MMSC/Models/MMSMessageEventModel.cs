@@ -17,10 +17,11 @@ namespace MMSC.Models
         public string To { get; set; }
        
         public int Status { get; set; }
+        public string MediaType { get; set; } = string.Empty;
 
         public override string ToString()
         {
-            return $"{MessageType}|{TransactionID}|{MessageID}|{PushID}|{DomainSender}|{From}|{DomainRcpt}|{To}|{Status}";
+            return $"{MessageType}|{MediaType}|{TransactionID}|{MessageID}|{PushID}|{DomainSender}|{From}|{DomainRcpt}|{To}|{Status}";
         }
     }
 }

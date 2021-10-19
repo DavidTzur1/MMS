@@ -322,6 +322,9 @@ namespace MMSC.Decoders
                             Array.Copy(PDU, pos, data, 0, PDU.Length - pos);
                             message.Data = Tools.GetHexString(data);
                             parseParts();
+                            message.MediaType =GetMediaType();
+
+
                             pos = PDU.Length;
 
                             break;
@@ -686,6 +689,17 @@ namespace MMSC.Decoders
             }
 
             return "";
+        }
+
+        private string GetMediaType()
+        {
+            string mediaType = "";
+            foreach (var item in message.Parts)
+            {
+                if (item.ContentType.ToLower().Trim() != "application/smil")
+                    mediaType = $"{mediaType};{item.ContentType}";
+            }
+            return mediaType.Trim(';');
         }
     }
 }

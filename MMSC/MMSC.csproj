@@ -140,6 +140,7 @@
     <Compile Include="DBApi\InsertMessageEvent.cs" />
     <Compile Include="DBApi\InsertNotification.cs" />
     <Compile Include="DBApi\InsertNotificationResp.cs" />
+    <Compile Include="DBApi\IsBlocked.cs" />
     <Compile Include="DBApi\UpdateNotification.cs" />
     <Compile Include="Decoders\Decoder.cs" />
     <Compile Include="Decoders\MM1Decoder.cs" />

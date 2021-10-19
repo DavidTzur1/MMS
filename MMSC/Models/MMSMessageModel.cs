@@ -36,6 +36,8 @@ namespace MMSC.Models
         public string ContentTypeRaw { get; set; } = string.Empty;
         public string Data { get; set; } 
         public string PushID { get; set; } = string.Empty;
+        public string MediaType { get; set; } = string.Empty;
+        
 
         public List<MMSPartModel> Parts { get; set; } = new List<MMSPartModel>();
 
@@ -46,12 +48,14 @@ namespace MMSC.Models
 
         public override string ToString()
         {
-            return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{From}|{string.Join(";", To)}";
+            return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{MediaType}|{From}|{string.Join(";", To)}|{ResponseStatus}";
         }
         public string ToString(string to)
         {
             return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{From}|{to}";
         }
+
+      
 
 
     }
