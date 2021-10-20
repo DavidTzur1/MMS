@@ -47,7 +47,8 @@ namespace MMSC.Decoders
                     {
                         case "From":
                             {
-                                res.From = item.Value;
+                                //res.From = item.Value;
+                                res.From = Decoder.DeviceAddress( item.Value);
                                 break;
                             }
                         case "Sender":
@@ -58,7 +59,8 @@ namespace MMSC.Decoders
                             }
                         case "To":
                             {
-                                res.To.Add(item.Value);
+                                //res.To.Add(item.Value);
+                                 res.To.Add(Decoder.DeviceAddress(item.Value));
                                 break;
                             }
                         case "Subject":
@@ -125,9 +127,12 @@ namespace MMSC.Decoders
 
                 //Data
                 string hexData = message.BodyParts.Count().ToString("x2");
-
+                string mediaType = "";
                 foreach (var attachment in message.BodyParts)
                 {
+                    if (attachment.ContentType.MimeType.ToLower().Trim() != "application/smil")
+                        mediaType = $"{mediaType};{attachment.ContentType.MimeType.ToLower().Trim()}";
+
                     string contentTypeEncode = "";
                     int contentTypeCode;
                     if (Decoder.ContentTypesByName.TryGetValue(attachment.ContentType.MimeType, out contentTypeCode))
@@ -217,7 +222,7 @@ namespace MMSC.Decoders
                     hexData += contentTypeEncode + Tools.GetHexString(contentData);
 
                 }
-
+                res.MediaType = mediaType.Trim(';');
 
 
                 res.Data = hexData;

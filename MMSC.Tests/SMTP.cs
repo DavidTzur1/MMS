@@ -67,12 +67,14 @@ namespace MMSC.Tests
         {
             var aaa = Convert.FromBase64String("P/VR6D0noPwP/9k=");
             var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt");
+            //var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4_Cellcom.txt");
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mm4.txt");
             MMSMessageModel res = MM4Decoder.Parse(message);
 
             //C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt");
             // MMSMessageModel  res = MM4Decoder.Parse(message);
+          
 
             using (var smtpClient = new SmtpClient())
             {
@@ -82,6 +84,8 @@ namespace MMSC.Tests
                 smtpClient.Send(message, new MailboxAddress("", "email@email.here"), new[] { new MailboxAddress("", "david.tzur@partner.co.il") });
                 smtpClient.Disconnect(true);
             }
+
+           
         }
     }
 }

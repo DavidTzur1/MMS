@@ -16,7 +16,7 @@ namespace MMSC.SMTP
 
         public Task<MailboxFilterResult> CanAcceptFromAsync(ISessionContext context, IMailbox @from, int size, CancellationToken cancellationToken)
         {
-            log.Debug(@from.Host);
+            //log.Debug(@from.Host);
             return Task.FromResult(MailboxFilterResult.Yes);
             //if (String.Equals(@from.Host, "test.com"))
             //{

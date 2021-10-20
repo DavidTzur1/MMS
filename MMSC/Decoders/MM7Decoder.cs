@@ -54,10 +54,15 @@ namespace MMSC.Decoders
                     {                       
                         var parts = await stream.ReadAsMultipartAsync();
                         string hexData = parts.Contents.Count.ToString("x2");
+                        string mediaType = "";
                         foreach (var part in parts.Contents)
                         {
+                            MMSPartModel mMSPartModel = new MMSPartModel();
+                            if (part.Headers.ContentType.MediaType.ToLower().Trim() != "application/smil")
+                                mediaType = $"{mediaType};{part.Headers.ContentType.MediaType.ToLower().Trim()}";
                             string contentTypeEncode = "";
                             int contentTypeCode;
+                            mMSPartModel.ContentType = part.Headers.ContentType.MediaType;
                             if (Decoder.ContentTypesByName.TryGetValue(part.Headers.ContentType.MediaType, out contentTypeCode))
                             {
                                 contentTypeEncode = (contentTypeCode + 0x80).ToString("x2");
@@ -76,7 +81,7 @@ namespace MMSC.Decoders
                                     {
                                         case 0x01: //Charset
                                             {
-
+                                                mMSPartModel.Charset = parameter.Value;
                                                 int charsetCode;
                                                 if (Decoder.CharacterSets.TryGetValue(parameter.Value, out charsetCode))
                                                 {
@@ -113,12 +118,14 @@ namespace MMSC.Decoders
                                     {
                                         case 0x40: //Content-ID
                                             {
+                                                mMSPartModel.ContentId = header.Value.First();
                                                 contentTypeEncode += "c022" + Tools.ToHexString(header.Value.First()) + "00";
 
                                                 break;
                                             }
                                         case 0x0E: //"Content-Location"
                                             {
+                                                mMSPartModel.ContentLocation = header.Value.First();
                                                 contentTypeEncode += "8e" + Tools.ToHexString(header.Value.First()) + "00";
                                                 break;
                                             }
@@ -135,6 +142,7 @@ namespace MMSC.Decoders
                            
                             if (part.Headers.TryGetValues("Content-Transfer-Encoding", out values))
                             {
+                                
                                 if (values.Contains("base64"))
                                 {
                                     string base64String = await part.ReadAsStringAsync();
@@ -151,12 +159,18 @@ namespace MMSC.Decoders
                                 contentData = await part.ReadAsByteArrayAsync();
                             }
                            
-                            
-
                             hexData += IntToUIntString(contentData.Length);
                             hexData += contentTypeEncode + Tools.GetHexString(contentData);
-                            
+                            mMSPartModel.Content = contentData;
+                            res.Parts.Add(mMSPartModel);
+
+
+
+
                         }
+
+                        res.MediaType = mediaType.Trim(';');
+
                         res.Data = hexData;
                         res.MessageSize = hexData.Length/2;
                     }
@@ -171,15 +185,17 @@ namespace MMSC.Decoders
                         res.TransactionId = xml.Element(ab + "Header").Element("MM7Header").Element("Transaction-ID").Value;
                         res.MessageType = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Message-Type").Value;
                         res.From = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "From").Value;
-                        res.To.Add(xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Recipient").Value);
+                        //res.To.Add(xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Recipient").Value);
+                        res.To.Add(Decoder.DeviceAddress(xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Recipient").Value));
                         res.DeliveryReport = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Delivery-Report").Value == "False" ? 0 : 1;
                         res.ReadReport = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Read-Reply").Value == "False" ? 0 : 1;
                         res.Priority = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Priority").Value;
                         res.Subject = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "Subject").Value;
-                        
+                        res.Sender = xml.Element(ab + "Body").Element(ac + "MultiMediaSubmit").Element(ac + "VASP-ID").Value;
                     }
 
                 }
+ 
                 return res;
 
             }
