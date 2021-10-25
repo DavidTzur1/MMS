@@ -39,10 +39,13 @@ namespace MMSC.Actions
             {
                 foreach (var item in req.To)
                 {
+                    
+                    
+
                     if (item.Contains("@"))
                     {
                         //SMTP message
-                        MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ",MediaType=req.MediaType, TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { item }, Parts = req.Parts };
+                        MMSMessageModel message = new MMSMessageModel() { MessageType = req.MessageType,MediaType=req.MediaType, TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { item }, Parts = req.Parts };
                         SMTPMessageModel smtpMessage = new SMTPMessageModel(message);
                         if (await SMTPClient.Send(smtpMessage))
                         {
@@ -55,7 +58,7 @@ namespace MMSC.Actions
                         }
 
 
-                        MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ",MediaType=req.MediaType, TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = "mail", DomainSender = req.Sender };
+                        MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = req.MessageType, MediaType=req.MediaType, TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = "mail", DomainSender = req.Sender };
                         int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
 
                         log.Info(notification.ToString());
@@ -65,10 +68,7 @@ namespace MMSC.Actions
                     else
                     {
                         
-                        if ( await DBApi.IsBlocked.Execute(Decoder.DeviceAddress(item).Replace("/TYPE=PLMN", ""), 2)) 
-                        {
-                            log.Debug($"The Sub {item} is blocked");
-                        }
+                       
                         IRResponseModel resp = await API.GetSubscriptionOperator.ExecuteAsync(item);
                         if(resp.Status == 0)
                         {
@@ -91,8 +91,18 @@ namespace MMSC.Actions
                                     int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
                                     if (rowsAffected == 1)
                                     {
-                                        notification.Status = await PPG.PostNotificationAsync(ppgReq);
-                                        await DBApi.UpdateNotification.Execute(notification);
+                                        if (await DBApi.IsBlocked.Execute(Decoder.DeviceAddress(item).Replace("/TYPE=PLMN", ""), 2))
+                                        {
+                                            notification.Status = 2001;
+                                            await DBApi.UpdateNotification.Execute(notification);
+                                            //log.Debug($"The Sub {item} is blocked");
+                                           
+                                        }
+                                        else
+                                        {
+                                            notification.Status = await PPG.PostNotificationAsync(ppgReq);
+                                            await DBApi.UpdateNotification.Execute(notification);
+                                        }
 
                                     }
                                     else
