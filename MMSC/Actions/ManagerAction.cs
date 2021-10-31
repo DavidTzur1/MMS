@@ -116,7 +116,8 @@ namespace MMSC.Actions
                                 else
                                 {
                                     //SMTP message
-                                    MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID,From=req.From,To= new List<string> { item },Parts=req.Parts };
+                                    //MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID,From=req.From,To= new List<string> { item },Parts=req.Parts };
+                                    MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { Decoder.DeviceAddress(item) }, Parts = req.Parts };
                                     SMTPMessageModel smtpMessage = new SMTPMessageModel(message, op.Domain);
                                     if(await SMTPClient.Send(smtpMessage))
                                     {
