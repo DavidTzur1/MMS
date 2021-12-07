@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="Actions\ManagerAction.cs" />
     <Compile Include="API\AppSettings.cs" />
+    <Compile Include="API\CDRTransferManager.cs" />
     <Compile Include="API\GetSubscriptionOperator.cs" />
     <Compile Include="API\PPG.cs" />
     <Compile Include="API\SMTPClient.cs" />

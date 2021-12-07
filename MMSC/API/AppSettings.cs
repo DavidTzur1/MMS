@@ -195,6 +195,42 @@ namespace MMSC.API
             }
 
         }
+
+        public class CDRTransfer
+        {
+            public static string SourceDirectory
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("CDRTransfer").Attribute("SourceDirectory").Value;
+
+                }
+            }
+
+            public static string TargetDirectory
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("CDRTransfer").Attribute("TargetDirectory").Value;
+
+                }
+            }
+
+            public static int TransferTimer
+            {
+                get
+                {
+                    int value = 90;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Element("CDRTransfer").Attribute("TransferTimer").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 90;
+                }
+            }
+
+        }
         public class OPERATORS
         {
             public class Operator

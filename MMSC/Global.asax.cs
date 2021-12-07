@@ -15,6 +15,7 @@ namespace MMSC
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             SMTPServerManager.Run();
+            CDRTransferManager.Run();
         }
     }
 }
