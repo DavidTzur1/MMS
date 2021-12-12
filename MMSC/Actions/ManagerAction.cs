@@ -78,7 +78,10 @@ namespace MMSC.Actions
                                 Operator op = AppSettings.OPERATORS.GetOperatorInfo(operatorName);
                                 if(op==null)
                                 {
-                                    log.Warn($"The Operator {operatorName} Not suport mms (Not exist in AppSetting.xml).");
+                                   // log.Warn($"The Operator {operatorName} Not suport mms (Not exist in AppSetting.xml).");
+                                    MMSMessageEventModel messageEvent = new MMSMessageEventModel() { MessageType = "m-error-info", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = 1, DomainRcpt = "", DomainSender = req.Sender, MediaType = req.MediaType,Info= operatorName + " - Not suport mms" };
+                                    int rowsAffected = await DBApi.InsertMessageEvent.Execute(messageEvent);
+                                    log.Warn(messageEvent);
                                     return;
                                 }
                                 if (op.IsInternal)
@@ -115,8 +118,7 @@ namespace MMSC.Actions
                                 }
                                 else
                                 {
-                                    //SMTP message
-                                    //MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID,From=req.From,To= new List<string> { item },Parts=req.Parts };
+
                                     MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { Decoder.DeviceAddress(item) }, Parts = req.Parts };
                                     SMTPMessageModel smtpMessage = new SMTPMessageModel(message, op.Domain);
                                     if(await SMTPClient.Send(smtpMessage))
@@ -145,7 +147,10 @@ namespace MMSC.Actions
                         }
                         else
                         {
-                            log.Warn(req.ToString(item));
+
+                            MMSMessageEventModel messageEvent = new MMSMessageEventModel() { MessageType = "m-error-info", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = 2, DomainRcpt = "", DomainSender = req.Sender, MediaType = req.MediaType ,Info= resp.Description};
+                            int rowsAffected = await DBApi.InsertMessageEvent.Execute(messageEvent);
+                            log.Warn(messageEvent);
 
                         }
 

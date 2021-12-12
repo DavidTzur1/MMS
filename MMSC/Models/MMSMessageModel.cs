@@ -52,7 +52,8 @@ namespace MMSC.Models
         }
         public string ToString(string to)
         {
-            return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{From}|{to}";
+           // return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{From}|{to}";
+            return $"{MessageType}|{TransactionId}|{MessageID}|PushID|{MediaType}|{From}|{to}|{ResponseStatus}";
         }
 
       

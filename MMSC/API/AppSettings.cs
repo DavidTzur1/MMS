@@ -252,7 +252,11 @@ namespace MMSC.API
                 Operator op = null;
                 try
                 {
-                    var xml = AppSettings.XMLSettings.Element("OPERATORS").Elements("OPERATOR").First(item => item.Attribute("Name").Value == name); ;
+                    var xml = AppSettings.XMLSettings.Element("OPERATORS").Elements("OPERATOR").FirstOrDefault(item => item.Attribute("Name").Value == name); 
+                    if (xml== null)
+                    {
+                        return null;
+                    }
                     op = new Operator();
                     op.Name = xml.Attribute("Name").Value;
                     op.Domain = xml.Attribute("Domain").Value;

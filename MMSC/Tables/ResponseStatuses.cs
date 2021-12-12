@@ -15,6 +15,7 @@ namespace MMSC.Tables
         public static readonly byte Ok = 0x80;
         public static readonly byte ErrorNetworkProblem = 0x86;
         public static readonly byte ErrorServiceDenied = 0x82;
+        public static readonly byte ErrorSendingAddressUnresolved = 132;
 
         static ResponseStatuses()
         {

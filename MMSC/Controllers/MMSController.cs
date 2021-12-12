@@ -109,6 +109,8 @@ namespace MMSC.Controllers
                     notifyresp.MessageType = message.MessageType;
                     notifyresp.Status = message.Status;
                     notifyresp.To = from;
+
+                    if (notifyresp.MessageID == string.Empty) notifyresp.Info = "TransactionId not found";
                     await DBApi.InsertMessageEvent.Execute(notifyresp);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)
@@ -129,6 +131,8 @@ namespace MMSC.Controllers
                     acknowledge.MessageType = message.MessageType;
                     acknowledge.Status = message.Status;
                     acknowledge.To = from;
+
+                    if (acknowledge.MessageID == string.Empty) acknowledge.Info = "TransactionId not found";
                     await DBApi.InsertMessageEvent.Execute(acknowledge);
 
                     var result = new HttpResponseMessage(HttpStatusCode.OK)

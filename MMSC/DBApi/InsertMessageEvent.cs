@@ -36,6 +36,7 @@ namespace MMSC.DBApi
                         cmd.Parameters.AddWithValue("@DomainRcpt", message.DomainRcpt);
                         cmd.Parameters.AddWithValue("@To", message.To);
                         cmd.Parameters.AddWithValue("@Status", message.Status);
+                        cmd.Parameters.AddWithValue("@Info", message.Info);
                         con.Open();
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();
                         con.Close();
