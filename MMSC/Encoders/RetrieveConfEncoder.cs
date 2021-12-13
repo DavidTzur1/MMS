@@ -26,13 +26,15 @@ namespace MMSC.Encoders
         public static readonly byte DELIVERY_REPORT = 0x86;
         public static readonly byte READ_REPORT = 0x90;
         public static readonly byte CONTENT_TYPE = 0x84;
+        public static readonly byte RETRIEVE_STATUS = 0x99;
+        public static readonly byte RETRIEVE_TEXT = 0x9A;
 
 
         public string MessageType { get; set; }
         public string TransactionID { get; set; }
         public string Version { get; set; }
-        public byte ResponseStatus { get; set; }
-        public string ResponseText { get; set; }
+        public int RetrieveStatus { get; set; }
+        public string RetrieveText { get; set; }
         public string MessageID { get; set; }
         public string ContentType { get; set; }
 
@@ -47,28 +49,36 @@ namespace MMSC.Encoders
 	 * Encode the message to a valid mms message
 	 * @return a byte array of the message
 	 */
-        public byte[] Encode()
+
+        public byte[] Encode(bool flag=true)
         {
             MemoryStream outBuffer = new MemoryStream();
             try
             {
+                
                 // Type
                 outBuffer.WriteByte(MESSAGE_TYPE);
                 outBuffer.WriteByte(0X84);
 
                 // Transaction ID
-                outBuffer.WriteByte(TRANSACTION_ID);
-                outBuffer.Write(Encoding.UTF8.GetBytes(TransactionID), 0, TransactionID.Length);
-                outBuffer.WriteByte(0x0);
+                if (flag)
+                {
+                    outBuffer.WriteByte(TRANSACTION_ID);
+                    outBuffer.Write(Encoding.UTF8.GetBytes(TransactionID), 0, TransactionID.Length);
+                    outBuffer.WriteByte(0x0);
+                }
 
                 // Mms version
                 outBuffer.WriteByte(MMS_VERSION);
                 outBuffer.WriteByte(0x92);
 
                 // Message ID
-                outBuffer.WriteByte(MESSAGE_ID);
-                outBuffer.Write(Encoding.UTF8.GetBytes(MessageID), 0, MessageID.Length);
-                outBuffer.WriteByte(0x0);
+                if (flag)
+                {
+                    outBuffer.WriteByte(MESSAGE_ID);
+                    outBuffer.Write(Encoding.UTF8.GetBytes(MessageID), 0, MessageID.Length);
+                    outBuffer.WriteByte(0x0);
+                }
 
                 // Date
                 outBuffer.WriteByte(DATE);
@@ -77,11 +87,14 @@ namespace MMSC.Encoders
                 outBuffer.Write(date, 0, date.Length);
 
                 // From
-                outBuffer.WriteByte(FROM);
-                outBuffer.WriteByte((byte)(From.Length + 2));
-                outBuffer.WriteByte(0x80);
-                outBuffer.Write(Encoding.UTF8.GetBytes(From), 0, From.Length);
-                outBuffer.WriteByte(0x0);
+                if (flag)
+                {
+                    outBuffer.WriteByte(FROM);
+                    outBuffer.WriteByte((byte)(From.Length + 2));
+                    outBuffer.WriteByte(0x80);
+                    outBuffer.Write(Encoding.UTF8.GetBytes(From), 0, From.Length);
+                    outBuffer.WriteByte(0x0);
+                }
 
                 // To
                 outBuffer.WriteByte(TO);
@@ -104,39 +117,22 @@ namespace MMSC.Encoders
                 outBuffer.WriteByte(READ_REPORT);
                 outBuffer.WriteByte(0x81);
 
+                //ResponseStatus
+                outBuffer.WriteByte(RETRIEVE_STATUS);
+                outBuffer.WriteByte((byte)RetrieveStatus);
+
                 //Contant Type 
                 outBuffer.WriteByte(CONTENT_TYPE);
                 outBuffer.WriteByte(0xa3);//application/vnd.wap.multipart.mixed
-                //var list = ContentType.Split(';').ToList();
-                //string start="";
-                //string type="";
-                //foreach(var item in list.Skip(1))
-                //{
-                //    var key = item.Split('=').FirstOrDefault();
-                //    var value = item.Split('=').LastOrDefault();
 
-                //    switch (key.ToLower().Trim())
-                //    {
-                //        case "start":
-                //            start = value; ;
-                //            break;
-                //        case "type":
-                //            type = value;
-                //            break;
-                //    }
-                //}
-                //outBuffer.WriteByte((byte)(start.Length + type.Length + 2 +3)); //len
-                //outBuffer.WriteByte(0xb3);//application/vnd.wap.multipart.related
-                //outBuffer.WriteByte(0x89);//type
-                //outBuffer.Write(Encoding.UTF8.GetBytes(type), 0, type.Length);
-                //outBuffer.WriteByte(0x0);
-                //outBuffer.WriteByte(0x8a); //start
-                //outBuffer.Write(Encoding.UTF8.GetBytes(start), 0, start.Length);
-                //outBuffer.WriteByte(0x0);
+                
 
                 //Data
-                byte[] data = Tools.GetBytes(Data);
-                outBuffer.Write(data, 0, data.Length);
+                if (flag)
+                {
+                    byte[] data = Tools.GetBytes(Data);
+                    outBuffer.Write(data, 0, data.Length);
+                }
 
 
                 return outBuffer.ToArray();

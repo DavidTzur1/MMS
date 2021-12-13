@@ -8,7 +8,7 @@ namespace MMSC.Models
     public class MMSMessageModel
     {
         public string MessageType { get; set; } = string.Empty;
-        public string TransactionId { get; set; }
+        public string TransactionId { get; set; } = string.Empty;
         public string Version { get; set; } = "1.2";
         public List<string> To { get; set; }
         public string BCC { get; set; }
@@ -16,9 +16,9 @@ namespace MMSC.Models
         public string ContentLocation { get; set; }
         public string Subject { get; set; } = "MMS Message";
         public string Sender { get; set; } = "";
-        public string From { get; set; }
-        
-        public string MessageID { get; set; }
+        public string From { get; set; } = string.Empty;
+
+        public string MessageID { get; set; } = String.Empty;
         public long MessageSize { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
         public long Expiry { get; set; } = 259200;
@@ -34,7 +34,7 @@ namespace MMSC.Models
         public int ReportAllowed { get; set; }
         public string ContentType { get; set; } = "application/vnd.wap.multipart.related";
         public string ContentTypeRaw { get; set; } = string.Empty;
-        public string Data { get; set; } 
+        public string Data { get; set; } = string.Empty;
         public string PushID { get; set; } = string.Empty;
         public string MediaType { get; set; } = string.Empty;
         
