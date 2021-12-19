@@ -56,7 +56,7 @@ namespace MMSC.Controllers
                 };
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
 
-                MMSMessageEventModel notif = new MMSMessageEventModel() { PushID = messageid, MessageType = message.MessageType, TransactionID = message.TransactionId, MessageID = message.MessageID,DomainSender=message.Sender, From = message.From, To = to,DomainRcpt= "oklik.net" ,MediaType=message.MediaType,Info=flag?"Null":"Message not found",Status= flag ? 0x80 : 0xc1 };
+                MMSMessageEventModel notif = new MMSMessageEventModel() { PushID = messageid, MessageType = message.MessageType, TransactionID = message.TransactionId, MessageID = message.MessageID,DomainSender=message.Sender, From = message.From, To = to,DomainRcpt= "oklik.net" ,MediaType=message.MediaType,Info=flag?"Null":"Message not found",Status= flag ? 0 : 0xc1 };
                 await DBApi.InsertMessageEvent.Execute(notif);
                 log.Info(notif.ToString());
                 cdr.Info(notif.ToString());
