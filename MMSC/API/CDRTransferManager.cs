@@ -34,7 +34,15 @@ namespace MMSC.API
                
                 foreach (string filename in Directory.EnumerateFiles(sourceDirectory).Where(x=>!x.EndsWith(".cdr") ))
                 {
-                    using (FileStream SourceStream = File.Open(filename, FileMode.Open))
+                    //using (FileStream SourceStream = File.Open(filename, FileMode.Open))
+                    //{
+                    //    using (FileStream DestinationStream = File.Create(targetDirectory + filename.Substring(filename.LastIndexOf('\\'))))
+                    //    {
+                    //        await SourceStream.CopyToAsync(DestinationStream);
+                    //    }
+                    //}
+
+                    using (FileStream SourceStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Delete | FileShare.ReadWrite))
                     {
                         using (FileStream DestinationStream = File.Create(targetDirectory + filename.Substring(filename.LastIndexOf('\\'))))
                         {

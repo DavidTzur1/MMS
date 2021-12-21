@@ -118,8 +118,8 @@ namespace MMSC.Encoders
                 outBuffer.WriteByte(0x81);
 
                 //ResponseStatus
-                outBuffer.WriteByte(RETRIEVE_STATUS);
-                outBuffer.WriteByte((byte)RetrieveStatus);
+                //outBuffer.WriteByte(RETRIEVE_STATUS);
+                //outBuffer.WriteByte((byte)RetrieveStatus);
 
                 //Contant Type 
                 outBuffer.WriteByte(CONTENT_TYPE);
