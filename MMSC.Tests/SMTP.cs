@@ -66,9 +66,10 @@ namespace MMSC.Tests
         public void SendSMTP()
         {
             var aaa = Convert.FromBase64String("P/VR6D0noPwP/9k=");
-            var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt");
-            //var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4_Cellcom.txt");
-            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mm4.txt");
+            //var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt"); //mmscprovider.pelephone.net.il
+            // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4_Cellcom.txt"); //mms.cellcom.co.il
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mm4.txt"); //mms.hotmobile.co.il
+            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt");
             MMSMessageModel res = MM4Decoder.Parse(message);
 
             //C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt
