@@ -37,10 +37,10 @@ namespace MMSC.SMTP
 
                 stream.Position = 0;
 
-                foreach (var item in transaction.Parameters)
-                {
-                    log.Debug($"key = {item.Key} Value= {item.Value}");
-                }
+                //foreach (var item in transaction.Parameters)
+                //{
+                //    log.Debug($"key = {item.Key} Value= {item.Value}");
+                //}
 
                 
                 var message = await MimeKit.MimeMessage.LoadAsync(stream, cancellationToken);
