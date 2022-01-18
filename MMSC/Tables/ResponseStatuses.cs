@@ -33,6 +33,18 @@ namespace MMSC.Tables
                 [0x87] = "Error-content-not-accepted",
                 [0x88] = "Error-unsupported-message"
             };
+            Encoder = new Dictionary<string, int>()
+            {
+                ["Ok"] = 0x80  ,
+                ["Error-unspecified"] =0x81  ,
+                ["Error- service-denied"] = 0x82  ,
+                ["Error-message-format-corrupt"] =0x83  ,
+                ["Error-sending-address-unresolved"] =0x84  ,
+                ["Error-message-not-found"] = 0x85  ,
+                ["Error-network-problem"]= 0x86 ,
+                ["Error-content-not-accepted"] = 0x87 ,
+                ["Error-unsupported-message"] = 0x88
+            };
         }
     }
 }

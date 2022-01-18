@@ -1,0 +1,46 @@
+﻿Received: from localhost (vmmmsmta1_t1d [127.0.0.1])
+	by vmmmsmta1.partnergsm.co.il (Postfix) with ESMTP id 089436FE77
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:18:19 +0200 (IST)
+Received: from vmmmsmta1.partnergsm.co.il ([127.0.0.1])
+	by localhost (vmmmsmta1_t1d.partnergsm.co.il [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qKV7xAeGmbkx for <admin@oklik.net>;
+	Thu, 13 Jan 2022 01:18:18 +0200 (IST)
+Received: from engmailgw1.dmz.co.il (mtaout.mms.cellcom.co.il [80.250.148.16])
+	by vmmmsmta1.partnergsm.co.il (Postfix) with ESMTP id EB8F56FE75
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:18:18 +0200 (IST)
+Date: Thu, 13 Jan 2022 01:18:18 +0200
+X-AuditID: c0a88226-f796e6d0000031f8-f1-61df61badea3
+Received: from CMMSC3NT.ain.co.il (Unknown_Domain [172.31.24.53])
+	by engmailgw1.dmz.co.il (Cellcom Israel AIN SMTP Ready) with SMTP id B8.AA.12792.AB16FD16; Thu, 13 Jan 2022 01:18:18 +0200 (IST)
+From: PostMaster
+To: admin@oklik.net
+Message-ID: <710940053.64524.1642029499451.JavaMail.callupmmscsrv@CMMSC3NT>
+Subject: MM4_forward.RES
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Mms-Message-Type: MM4_forward.RES
+X-Mms-Originator-System: PostMaster@mms.cellcom.co.il
+X-Mms-3GPP-MMS-Version: 5.5.0
+X-Mms-Request-Recipients: +972527220820
+X-Mms-Transaction-Id: jay000495897bc01090b1b05
+X-Mms-Message-Id: 2022011223181841801
+X-Mms-Message-Class: Personal
+X-Mms-Request-Status-Code: Ok
+X-Mms-Status-Text: All is good.
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJLMWRmVeSWpSXmKPExsWyRl7CVHdX4v1Eg89LLSyuHz3L7MDose5D
+	ZABjFJdNSmpOZllqkb5dAldGz+4LbAUMFSCqgZGhi5GTQ0LARGJH21VWCFtM4sK99WxdjFwc
+	QgJHGCVmzzzCDJJgE1CSuDDhKguILSIgLLGufTEbiM0r4C1x69Rm9i5GDg5hAQmJb5cTIcKC
+	EidnPgErZxbQkrjx7yUThC0vsf3tHGaIXcoSV171MELYphK7N/9ig7BlJb4emskCYatLdJ25
+	yQ5h60msmroEylaVuPfvJgtM/eYXB5hh7Ccr5kLNkZe4/O8RywRG4VlITpqF5KRZSE5awMi8
+	ilEkNS89NzEzJ73cUC8lt0ovOV8vM2cTIzCAD6xoUtvBeGS/1SFGAQ5GJR5eg+8P44VYE8uK
+	K3MPMUpwMCuJ8DqdPR0nxJuSWFmVWpQfX1Sak1p8iFGag0VJnLdyw4EAIYH0xJLU7NTUgtQi
+	mCwTB6dUA2Mbn2bhn/rCwgePvtyWPXx/zt2OFTVqh2653dKODQwvyzgfly0Vou218HmNaH7o
+	0l73qZIPNZ/um71MTGeObce3q2si8hge2DS9Wvh6Q3y98vIr0n3mG88f/eXRYfRTuzrLo7Li
+	9/E4z3Wai12fnebe+y7+xrRYu5+BfQcDLm5uNJV5G8wfH6rEUpyRaKjFXFScCADLAa03XAIA
+	AA==
+
+.
+QUIT
+501 syntax error
+221 bye

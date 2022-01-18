@@ -1,6 +1,7 @@
 ﻿using MimeKit;
 using MMSC.API;
 using MMSC.Models;
+using MMSC.Tables;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,6 +85,7 @@ namespace MMSC.Decoders
                                 res.TransactionId = item.Value;
                                 break;
                             }
+                        case "X-Mms-Message-Id":
                         case "X-Mms-Message-ID":
                             {
                                 res.MessageID = item.Value;
@@ -112,6 +114,22 @@ namespace MMSC.Decoders
                         case "X-Mms-Read-Reply":
                             {
                                 res.ReadReport = (item.Value == "No") ? 0 : 1;
+                                break;
+                            }
+                        case "X-Mms-Request-Status-Code":
+                            {
+                                int status;
+                                res.ResponseStatus = ResponseStatuses.Encoder.TryGetValue(item.Value, out status) ? status : 999;
+                                break;
+                            }
+                        case "X-Mms-Status-Text":
+                            {
+                                res.ResponseText = item.Value;
+                                break;
+                            }
+                        case "X-Mms-Ack-Request":
+                            {
+                                res.AckRequest = (item.Value == "No") ? 0 : 1; ;
                                 break;
                             }
 
@@ -179,7 +197,15 @@ namespace MMSC.Decoders
                         }
                     }
 
-                    contentTypeEncode = (contentTypeEncode.Length / 2).ToString("X2") + contentTypeEncode;
+                    if ((contentTypeEncode.Length / 2) < 0x1F)
+                    {
+
+                        contentTypeEncode = (contentTypeEncode.Length / 2).ToString("X2") + contentTypeEncode;
+                    }
+                    else
+                    {
+                        contentTypeEncode = "1f"+ IntToUIntString(contentTypeEncode.Length/2) + contentTypeEncode;
+                    }
 
                     foreach (var header in attachment.Headers)
                     {
@@ -206,6 +232,7 @@ namespace MMSC.Decoders
                     }
 
                     int headersLen = contentTypeEncode.Length / 2;
+
                     hexData += IntToUIntString(headersLen);
 
                     byte[] contentData;

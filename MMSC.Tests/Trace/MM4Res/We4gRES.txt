@@ -1,0 +1,35 @@
+﻿Received: from localhost (vmmmsmta2_t1d [127.0.0.1])
+	by vmmmsmta2.partnergsm.co.il (Postfix) with ESMTP id 295DC6FE94
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:14:32 +0200 (IST)
+Received: from vmmmsmta2.partnergsm.co.il ([127.0.0.1])
+	by localhost (vmmmsmta2_t1d.partnergsm.co.il [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id l91lr+xL+Qdu for <admin@oklik.net>;
+	Thu, 13 Jan 2022 01:14:32 +0200 (IST)
+Received: from smtp.we4g.co.il (mmsprovider.we4g.co.il [141.226.71.245])
+	by vmmmsmta2.partnergsm.co.il (Postfix) with ESMTP id 0A5756FE43
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:14:32 +0200 (IST)
+Received: from clpmmschf1.xfone018.local (unknown [10.21.3.74])
+	by smtp.we4g.co.il (Postfix) with ESMTP id AF64E65D36
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:33:23 +0200 (IST)
+From: PostMaster
+To: admin@oklik.net
+Message-ID: <122596657.278177.1642029012954@clpmmschf1.xfone018.local>
+Subject: MM4_forward.RES
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Mms-Message-Type: MM4_forward.RES
+X-Mms-Originator-System: PostMaster@mms.we4g.co.il
+X-Mms-3GPP-MMS-Version: 5.5.0
+X-Mms-Request-Recipients: +972556602626
+X-Mms-Transaction-Id: T17e509239b3
+X-Mms-Message-Id: 2022011223142985401
+X-Mms-Message-Class: Personal
+X-Mms-Request-Status-Code: Ok
+X-Mms-Status-Text: All is good.
+Date: Thu, 13 Jan 2022 01:14:32 +0200 (IST)
+
+.
+QUIT
+501 syntax error
+221 bye

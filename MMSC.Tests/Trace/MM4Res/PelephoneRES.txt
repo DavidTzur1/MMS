@@ -1,0 +1,35 @@
+﻿Received: from localhost (vmmmsmta2_t1d [127.0.0.1])
+	by vmmmsmta2.partnergsm.co.il (Postfix) with ESMTP id 1D3406FE95
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:19:23 +0200 (IST)
+Received: from vmmmsmta2.partnergsm.co.il ([127.0.0.1])
+	by localhost (vmmmsmta2_t1d.partnergsm.co.il [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id wVc1ouFf5JVr for <admin@oklik.net>;
+	Thu, 13 Jan 2022 01:19:23 +0200 (IST)
+Received: from vrw-maileng-1.pelephone.net.il (unknown [85.159.160.136])
+	by vmmmsmta2.partnergsm.co.il (Postfix) with ESMTP id 06EDE6FE94
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:19:23 +0200 (IST)
+X-TM-IMSS-Message-ID:<64e4d3d4000452a3@pelephone.net.il>
+Received: from VR-MMSC-02 ([10.170.60.85]) by pelephone.net.il ([10.170.251.20]) with ESMTP (TREND IMSS SMTP Service 7.5) id 64e4d3d4000452a3 ; Thu, 13 Jan 2022 01:19:21 +0200
+Date: Thu, 13 Jan 2022 01:19:21 +0200 (IST)
+From: system-user
+To: admin@oklik.net
+Message-ID: <1162631878.1628357.1642029561072@VR-MMSC-02>
+Subject: MM4_forward.RES
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Mms-Message-Type: MM4_forward.RES
+X-Mms-Originator-System: system-user@mmscprovider.pelephone.net.il
+X-Mms-3GPP-MMS-Version: 5.5.0
+X-Mms-Request-Recipients: +972502768888
+X-Mms-Transaction-Id: 695308591
+X-Mms-Message-Id: 2022011223192218001
+X-Mms-Message-Class: Personal
+X-Mms-Request-Status-Code: Ok
+X-Mms-Status-Text: All is good.
+
+
+.
+QUIT
+501 syntax error
+221 bye

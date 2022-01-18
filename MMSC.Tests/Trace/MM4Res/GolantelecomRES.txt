@@ -1,0 +1,35 @@
+﻿Received: from localhost (vmmmsmta1_t1d [127.0.0.1])
+	by vmmmsmta1.partnergsm.co.il (Postfix) with ESMTP id 01E1D6FE76
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:27:28 +0200 (IST)
+Received: from vmmmsmta1.partnergsm.co.il ([127.0.0.1])
+	by localhost (vmmmsmta1_t1d.partnergsm.co.il [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OsDNePDMCMVA for <admin@oklik.net>;
+	Thu, 13 Jan 2022 01:27:27 +0200 (IST)
+Received: from engmailgw1.dmz.co.il (mtaout.mms.cellcom.co.il [80.250.148.16])
+	by vmmmsmta1.partnergsm.co.il (Postfix) with ESMTP id E56FE6FE75
+	for <admin@oklik.net>; Thu, 13 Jan 2022 01:27:27 +0200 (IST)
+Received: from mmsc.golantelecom.co.il (Unknown_Domain [10.224.212.135])
+	by engmailgw1.dmz.co.il (Cellcom Israel AIN SMTP Ready) with SMTP id B6.BA.12792.FD36FD16; Thu, 13 Jan 2022 01:27:27 +0200 (IST)
+From: postmaster
+Message-ID: <B6.BA.12792.FD36FD16@engmailgw1.dmz.co.il>
+X-Mms-3GPP-MMS-Version: 5.5.0
+X-Mms-Transaction-ID: jay0084F1EB040101091303
+X-Mms-Message-Type: MM4_forward.RES
+X-Mms-Message-ID: 2022011223272047801
+X-Mms-Request-Status-Code: Ok
+Sender: postmaster@mmsc.golantelecom.co.il
+To: admin@oklik.net
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEJMWRmVeSWpSXmKPExsXC9eBKu+795PuJBrNvmFlcP3qW2YHRY92H
+	yADGKC6blNSczLLUIn27BK6Mnt0X2AoYKkBUAyNDFyMnh4SAiUTH5l52CFtM4sK99WxdjFwc
+	QgKnGSWuLZnGBJJgE9CQ+NK8kQXE5hUwl2h9/oQNokFW4uuhmSwQtq7E9AsrmSBsZYkrr3oY
+	IWxViS9LOplh6p+smAvWKyygJdF8bTmYLSIgLLGufTHbBEaeBYwMqxhFUvPScxMzc9LLDfVS
+	cqv0kvP1MnM2MQJ9emBFk9oOxiP7rQ4xCnAwKvHwGnx/GC/EmlhWXJl7iFGCg1lJhNfp7Ok4
+	Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4ryVGw4ECAmkJ5akZqemFqQWwWSZODilGhhtby2ddKF6
+	ZWrlKY8FH4ReHfPS/qCc6u6ueEek7NV73nkHtNK22Jjv5bn//erjImVlVqX+iAUXtS3cDtzv
+	55K70Xth/6uOqi9e/eyPvn/J2NMp/9k5Ufo5x4HbaXczF70vcjkkpdUk9ugO/0GebysK197/
+	wfjSPVCvwtVJc1d2d13d4/t2j/yUWIozEg21mIuKEwHFDNNe5QEAAA==
+
+.
+QUIT
+501 syntax error
+221 bye

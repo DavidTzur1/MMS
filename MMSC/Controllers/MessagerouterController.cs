@@ -1,4 +1,5 @@
 ﻿using MMSC.Actions;
+using MMSC.API;
 using MMSC.Decoders;
 using MMSC.Models;
 using System;
@@ -30,9 +31,11 @@ namespace MMSC.Controllers
                 var multipart = await Request.Content.ReadAsMultipartAsync();
                 MMSMessageModel message = await MM7Decoder.Parse(multipart);
                 if (message == null) return null;
-                string messageID =  DBApi.InsertMessage.Execute(message);
+                message.MessageID = Tools.UniqueID;
+                //string messageID =  DBApi.InsertMessage.Execute(message);
+               int rowsAffected = await DBApi.InsertMessage.Execute(message);
                 MessagerouterResponseModel res = new MessagerouterResponseModel();
-                if (String.IsNullOrEmpty(messageID))
+                if (rowsAffected == 0)
                 {
                     res.TransactionID = message.TransactionId;
                     res.RequestStatus = -1;
@@ -40,12 +43,12 @@ namespace MMSC.Controllers
                 }
                 else
                 {
-                    message.MessageID = messageID;
+                    //message.MessageID = messageID;
                     ManagerAction.ActionBlock.Post(message);
                     res.TransactionID = message.TransactionId;
                     res.RequestStatus = 1000;
                     res.RequestStatusText = "Successfully sent";
-                    res.MessageID = messageID;
+                    res.MessageID = message.MessageID;
                 }
                 
 

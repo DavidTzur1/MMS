@@ -119,7 +119,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Trace\From0528449558.txt" />
+    <Content Include="Trace\From0532308826.txt" />
+    <Content Include="Trace\From0532308826Pic.txt" />
+    <Content Include="Trace\MessageID\2022011300280392301.txt" />
     <Content Include="Trace\mm4.txt" />
+    <Content Include="Trace\MM4Req\From0528449558.txt" />
+    <Content Include="Trace\MM4Req\From0532308826.txt" />
+    <Content Include="Trace\MM4Res\CellcomRES.txt" />
+    <Content Include="Trace\MM4Res\GolantelecomRES.txt" />
+    <Content Include="Trace\MM4Res\PelephoneRES.txt" />
+    <Content Include="Trace\MM4Res\We4gRES.txt" />
     <Content Include="Trace\mmsfromcelcom.txt" />
     <Content Include="Trace\T178cad0e416.txt" />
   </ItemGroup>

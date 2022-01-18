@@ -22,7 +22,7 @@ namespace MMSC.Models
         public long MessageSize { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
         public long Expiry { get; set; } = 259200;
-        public string OriginatorSystem { get; set; }
+        public string OriginatorSystem { get; set; } =string.Empty;
         public string MessageClass { get; set; } = "Personal";
         public string Priority { get; set; } = "Normal";
         public int SenderVisibility { get; set; }
@@ -37,7 +37,9 @@ namespace MMSC.Models
         public string Data { get; set; } = string.Empty;
         public string PushID { get; set; } = string.Empty;
         public string MediaType { get; set; } = string.Empty;
-        
+        public int AckRequest { get; set; }
+
+
 
         public List<MMSPartModel> Parts { get; set; } = new List<MMSPartModel>();
 

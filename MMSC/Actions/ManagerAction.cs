@@ -107,6 +107,17 @@ namespace MMSC.Actions
                                             await DBApi.UpdateNotification.Execute(notification);
                                         }
 
+                                        if(req.AckRequest == 1)
+                                        {
+                                            SMTPResModel res = new SMTPResModel() { MessageID = req.MessageID,OriginatorSystem=req.OriginatorSystem,TransactionId=req.TransactionId};
+                                            if(await SMTPClient.Send(res))
+                                            {
+
+                                            }
+                                        }
+
+
+
                                     }
                                     else
                                     {
@@ -118,8 +129,8 @@ namespace MMSC.Actions
                                 }
                                 else
                                 {
-
-                                    MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = req.TransactionId, MessageID = req.MessageID, From = req.From, To = new List<string> { Decoder.DeviceAddress(item) }, Parts = req.Parts };
+                                    string trid = Tools.UniqueID;
+                                    MMSMessageModel message = new MMSMessageModel() { MessageType = "MM4_forward.REQ", TransactionId = trid, MessageID = req.MessageID, From = req.From, To = new List<string> { Decoder.DeviceAddress(item) }, Parts = req.Parts };
                                     SMTPMessageModel smtpMessage = new SMTPMessageModel(message, op.Domain);
                                     if(await SMTPClient.Send(smtpMessage))
                                     {
@@ -132,7 +143,7 @@ namespace MMSC.Actions
                                     }
 
 
-                                    MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = req.TransactionId, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = op.Domain,DomainSender=req.Sender ,MediaType=req.MediaType};
+                                    MMSMessageEventModel notification = new MMSMessageEventModel() { MessageType = "MM4_forward.REQ", TransactionID = trid, MessageID = req.MessageID, From = req.From, To = item, Status = message.Status, DomainRcpt = op.Domain,DomainSender=req.Sender ,MediaType=req.MediaType};
                                     int rowsAffected = await DBApi.InsertMessageEvent.Execute(notification);
 
                                     log.Info(notification.ToString());

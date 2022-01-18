@@ -162,6 +162,7 @@
     <Compile Include="Models\PPGRequestModel.cs" />
     <Compile Include="Models\PPGResponseModel.cs" />
     <Compile Include="Models\SMTPMessageModel.cs" />
+    <Compile Include="Models\SMTPResModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTP\SampleMailboxFilter.cs" />
     <Compile Include="SMTP\SampleMessageStore.cs" />

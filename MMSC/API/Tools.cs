@@ -27,9 +27,12 @@ namespace MMSC.API
                     newValue = Math.Max(now, original + 1);
                 } while (Interlocked.CompareExchange(ref lastTimeStamp, newValue, original) != original);
                 string uniqueID = newValue.ToString() + ConfigurationManager.AppSettings[Environment.MachineName];
+                //string uniqueID = newValue.ToString() + "@" + Environment.MachineName;
                 return uniqueID;
             }
         }
+
+       
 
         public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
         {

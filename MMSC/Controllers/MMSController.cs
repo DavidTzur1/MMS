@@ -60,10 +60,12 @@ namespace MMSC.Controllers
                     message.From = from;
                     message.MessageSize = contentLength;
                     message.Sender = "oklik.net";
+                    //string messageID = Tools.UniqueID;
+                    message.MessageID = Tools.UniqueID;
 
-                    string messageID = DBApi.InsertMessage.Execute(message);
+                    int rowsAffected = await DBApi.InsertMessage.Execute(message);
                     SendConfEncoder sendConf = new SendConfEncoder();
-                    if (String.IsNullOrEmpty(messageID))
+                    if (rowsAffected == 0)
                     {
                         message.MessageID = "";
                         sendConf.TransactionId = message.TransactionId;
@@ -75,19 +77,19 @@ namespace MMSC.Controllers
                     
                     else if( await DBApi.IsBlocked.Execute(from.Replace("/TYPE=PLMN",""),1))
                     {
-                        message.MessageID = messageID;
+                        //message.MessageID = messageID;
                         sendConf.TransactionId = message.TransactionId;
                         sendConf.ResponseStatus = ResponseStatuses.ErrorServiceDenied;
-                        sendConf.MessageID = messageID;
+                        sendConf.MessageID = message.MessageID;
                         message.ResponseStatus = ResponseStatuses.ErrorServiceDenied;
                     }
                     else
                     {
-                        message.MessageID = messageID;
+                        //message.MessageID = messageID;
                         ManagerAction.ActionBlock.Post(message);
                         sendConf.TransactionId = message.TransactionId;
                         sendConf.ResponseStatus = ResponseStatuses.Ok;
-                        sendConf.MessageID = messageID;
+                        sendConf.MessageID = message.MessageID;
                         message.ResponseStatus = ResponseStatuses.Ok;
 
                     }

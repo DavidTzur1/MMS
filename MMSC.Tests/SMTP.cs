@@ -1,11 +1,15 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MimeKit;
+using MMSC.API;
+using MMSC.DBApi;
 using MMSC.Decoders;
 using MMSC.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MMSC.Tests
 {
@@ -63,21 +67,63 @@ namespace MMSC.Tests
         #endregion
 
         [TestMethod]
+        public async Task DecodeMessageAsync()
+        {
+            var lenstr = MM4Decoder.IntToUIntString(36);
+            var mess = await GetMessageByPushID.Execute("202201130023402350163c5030c");
+            int len = mess.Data.Length / 2;
+            string image = mess.Data.Substring(mess.Data.IndexOf("FFD8FFE000104A46494600010100000100010000FFE20"));
+            byte[] arry = Tools.GetBytes(image);
+            string str = System.Convert.ToBase64String(arry);
+            File.WriteAllText(@"d:\Test11.txt", str);
+            string UintStr = MM4Decoder.IntToUIntString(image.Length/2);
+            string data = File.ReadAllText(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MessageID\2022011300280392301.txt");
+            
+            byte[] pdu = Encoding.ASCII.GetBytes(data);
+            MM1Decoder decoder = new MM1Decoder(pdu);
+            decoder.Parse();
+        }
+
+        //http://172.17.120.131/servlets/retrieve?messageid=20220113002804018015abc7277
+
+        [TestMethod]
         public void SendSMTP()
         {
             var aaa = Convert.FromBase64String("P/VR6D0noPwP/9k=");
-            //var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt"); //mmscprovider.pelephone.net.il
+            // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt"); //mmscprovider.pelephone.net.il
             // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4_Cellcom.txt"); //mms.cellcom.co.il
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mm4.txt"); //mms.hotmobile.co.il
-            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt");
+            // var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\From0528449558.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\From0532308826.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\From0532308826Pic.txt");
+            //var message = MimeMessage.Load(@"d:\Test10.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0528449558.txt");
+            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0532308826.txt");
+
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\PelephoneRES.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\CellcomRES.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\We4gRES.txt");//We4gRES
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\GolantelecomRES.txt");//GolantelecomRES
+
             MMSMessageModel res = MM4Decoder.Parse(message);
+
+            if(res.MessageType == "MM4_forward.REQ")
+            {
+
+            }
+            else
+            {
+                string messType = res.MessageType;
+            }
+               
 
             //C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt");
             // MMSMessageModel  res = MM4Decoder.Parse(message);
-          
 
-            using (var smtpClient = new SmtpClient())
+
+                using (var smtpClient = new SmtpClient())
             {
                 //smtpClient.Connect("smtpvs.partnergsm.co.il", 25, MailKit.Security.SecureSocketOptions.None);
                 //smtpClient.Connect("10.11.32.43", 25, MailKit.Security.SecureSocketOptions.None);

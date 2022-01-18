@@ -1,5 +1,7 @@
 ﻿using MMSC.Actions;
 using MMSC.Decoders;
+using MMSC.Models;
+using MMSC.Tables;
 using SmtpServer;
 using SmtpServer.Protocol;
 using SmtpServer.Storage;
@@ -45,14 +47,45 @@ namespace MMSC.SMTP
 
                
                 var mms = MM4Decoder.Parse(message);
-                
-                string messageID = DBApi.InsertMessage.Execute(mms);
-                mms.MessageID = messageID;
-                ManagerAction.ActionBlock.Post(mms);
-               // log.Debug(message.From);
+                if (mms.MessageType == "MM4_forward.RES")
+                {
+                    MMSMessageEventModel notifyresp = await DBApi.GetMessageEventInfo.Execute(mms.TransactionId);
+                    notifyresp.TransactionID = mms.TransactionId;
+                    notifyresp.MessageType = mms.MessageType;
+                    notifyresp.Status = mms.ResponseStatus;
+                    notifyresp.Info = mms.ResponseText;
 
+                    if (notifyresp.MessageID == string.Empty) notifyresp.Info = "TransactionId not found";
+                    await DBApi.InsertMessageEvent.Execute(notifyresp);
+                    log.Info(notifyresp);
 
-                return SmtpResponse.Ok;
+                    return SmtpResponse.Ok;
+                }
+
+                else if (mms.MessageType == "MM4_forward.REQ")
+                {
+                    int rowsAffected = await DBApi.InsertMessage.Execute(mms);
+                    if (rowsAffected == 0)
+                    {
+                        mms.ResponseStatus = ResponseStatuses.ErrorNetworkProblem;
+                        log.Error(mms.ToString());
+                        return SmtpResponse.TransactionFailed;
+                    }
+                    else
+                    {
+                        ManagerAction.ActionBlock.Post(mms);
+                        mms.ResponseStatus = ResponseStatuses.Ok;
+                        log.Info(mms.ToString());
+                        return SmtpResponse.Ok;
+                    }
+                }
+                else
+                {
+                    log.Warn(mms.ToString());
+                    return SmtpResponse.SyntaxError;
+                }
+
+               
             }
             catch(Exception ex)
             {
