@@ -106,7 +106,17 @@ namespace MMSC.Decoders
                                 }
                             }
 
-                            contentTypeEncode = (contentTypeEncode.Length / 2).ToString("X2") + contentTypeEncode;
+                            if ((contentTypeEncode.Length / 2) < 0x1F)
+                            {
+
+                                contentTypeEncode = (contentTypeEncode.Length / 2).ToString("X2") + contentTypeEncode;
+                            }
+                            else
+                            {
+                                contentTypeEncode = "1f" + IntToUIntString(contentTypeEncode.Length / 2) + contentTypeEncode;
+                            }
+
+                            //contentTypeEncode = (contentTypeEncode.Length / 2).ToString("X2") + contentTypeEncode;
 
                             foreach (var header in part.Headers)
                             {

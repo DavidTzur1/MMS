@@ -14,7 +14,7 @@ namespace MMSC.API
         static int transferTimer = AppSettings.CDRTransfer.TransferTimer;
         static string sourceDirectory = AppSettings.CDRTransfer.SourceDirectory;
         static string targetDirectory = AppSettings.CDRTransfer.TargetDirectory;
-        static int cdrCounter = 1;
+       // static int cdrCounter = 1;
 
         static CDRTransferManager()
         {
@@ -45,9 +45,14 @@ namespace MMSC.API
 
                     using (FileStream SourceStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Delete | FileShare.ReadWrite))
                     {
-                        if (cdrCounter >= 10000) cdrCounter = 1;
+                        int cdrCounter = int.Parse(File.ReadAllText(AppSettings.CDRTransfer.CDRCounter));
+                        if (cdrCounter > 999999) cdrCounter = 1;
                         
-                        using (FileStream DestinationStream = File.Create(targetDirectory + filename.Substring(filename.LastIndexOf('\\')) + "." + cdrCounter++))
+                        string strCounter = cdrCounter.ToString().PadLeft(6, '0');
+                        cdrCounter++;
+                        File.WriteAllText(AppSettings.CDRTransfer.CDRCounter, cdrCounter.ToString());
+
+                        using (FileStream DestinationStream = File.Create(targetDirectory + filename.Substring(filename.LastIndexOf('\\')) + "." + strCounter))
                         {
                             
                             await SourceStream.CopyToAsync(DestinationStream);

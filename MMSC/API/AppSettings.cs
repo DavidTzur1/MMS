@@ -216,6 +216,15 @@ namespace MMSC.API
                 }
             }
 
+            public static string CDRCounter
+            {
+                get
+                {
+                    return AppSettings.XMLSettings.Element("CDRTransfer").Attribute("CDRCounter").Value;
+
+                }
+            }
+
             public static int TransferTimer
             {
                 get
