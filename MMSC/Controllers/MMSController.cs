@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace MMSC.Controllers
@@ -42,11 +43,12 @@ namespace MMSC.Controllers
                 else
                 {
                     //from = "0549830440";
-                    log.Debug("Not found Header X-Wap-MSISDN");
+                   
+                    log.Error($"Not found Header X-Wap-MSISDN => THE ClientIp IS {GetClientIp()}");
                     return null;
                 }
 
-              
+               // log.Debug($"The client ip is {GetClientIp()}");
 
                 contentLength = (long)Request.Content.Headers.ContentLength;
 
@@ -163,6 +165,25 @@ namespace MMSC.Controllers
                 return null;
             }
             
+        }
+
+        private string GetClientIp(HttpRequestMessage request = null)
+        {
+            request = request ?? Request;
+
+            if (request.Properties.ContainsKey("MS_HttpContext"))
+            {
+                return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+            }
+            
+            else if (HttpContext.Current != null)
+            {
+                return HttpContext.Current.Request.UserHostAddress;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
