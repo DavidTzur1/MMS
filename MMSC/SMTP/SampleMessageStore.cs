@@ -47,6 +47,7 @@ namespace MMSC.SMTP
 
                
                 var mms = MM4Decoder.Parse(message);
+                if (mms == null) return SmtpResponse.SyntaxError;
                 if (mms.MessageType == "MM4_forward.RES")
                 {
                     MMSMessageEventModel notifyresp = await DBApi.GetMessageEventInfo.Execute(mms.TransactionId);
