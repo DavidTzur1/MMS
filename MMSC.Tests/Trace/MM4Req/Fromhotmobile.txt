@@ -1,0 +1,63 @@
+﻿Received: from localhost (vmmmsmta2_t1d [127.0.0.1])
+	by vmmmsmta2.partnergsm.co.il (Postfix) with ESMTP id 98EE2906F3
+	for <+972542997774/TYPE=PLMN@oklik.net>; Wed, 26 Jan 2022 00:17:46 +0200 (IST)
+Received: from vmmmsmta2.partnergsm.co.il ([127.0.0.1])
+	by localhost (vmmmsmta2_t1d.partnergsm.co.il [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id N+-B6n55m2AF for <+972542997774/TYPE=PLMN@oklik.net>;
+	Wed, 26 Jan 2022 00:17:46 +0200 (IST)
+Received: from HotM-MMS-1.localdomain (mmst.hotmobile.co.il [80.246.131.99])
+	by vmmmsmta2.partnergsm.co.il (Postfix) with ESMTP id 849EE906EF
+	for <+972542997774/TYPE=PLMN@oklik.net>; Wed, 26 Jan 2022 00:17:46 +0200 (IST)
+Received: from mms-relay3.mms.hotmobile.co.il ([10.201.97.20])
+	by HotM-MMS-1.localdomain  with ESMTP id 20PMHk7Y017074-20PMHk7Z017074
+	for <+972542997774/TYPE=PLMN@oklik.net>; Wed, 26 Jan 2022 00:17:46 +0200
+Received: by mms-relay3.mms.hotmobile.co.il (MultiMedia IP Store Server) id 54C016CC01E2CF0C for +972542997774/TYPE=PLMN@oklik.net; Wed, 26 Jan 2022 00:17:46 +0200
+Date: Wed, 26 Jan 2022 00:17:43 +0200
+From: +972525538021/TYPE=PLMN
+Sender: +972525538021/TYPE=PLMN@mms.hotmobile.co.il
+To: +972535258902/TYPE=PLMN, +972522329973/TYPE=PLMN, +972542997774/TYPE=PLMN,
+        +972526651059/TYPE=PLMN, +972506264518/TYPE=PLMN,
+        +972533905554/TYPE=PLMN, +972548804758/TYPE=PLMN,
+        +972537275292/TYPE=PLMN, +972533711171/TYPE=PLMN,
+        +972535269942/TYPE=PLMN, +972525928855/TYPE=PLMN,
+        +972584734855/TYPE=PLMN, +972503089444/TYPE=PLMN,
+        +972543554854/TYPE=PLMN, +972544701771/TYPE=PLMN,
+        +972526511659/TYPE=PLMN, +972544995857/TYPE=PLMN,
+        +972546475352/TYPE=PLMN, +972505769483/TYPE=PLMN,
+        +972507575479/TYPE=PLMN
+Message-ID: <kyuoj0sgre1p96@w.mms.hotmobile.co.il>
+MIME-Version: 1.0
+Content-Type: multipart/related;Start="<smil>";Type="application/smil"; 
+	boundary="----=_Part_1538440_896666475.1643149064895"
+X-Mms-Message-Type: MM4_forward.REQ
+X-Mms-3GPP-MMS-Version: 5.5.0
+X-Mms-Transaction-ID: "38637220220126001745557@mms.hotmobile.co.il"
+X-Mms-Message-ID: "kyuoj0sgre1p96@w.mms.hotmobile.co.il"
+X-Mms-Message-Class: Personal
+X-Mms-Expiry: Tue, 01 Feb 2022 22:17:44 GMT
+X-Mms-Delivery-Report: Yes
+X-Mms-Priority: Normal
+X-Mms-Read-Reply: No
+X-Mms-Ack-Request: Yes
+X-Mms-Originator-System: PostMaster@mms.hotmobile.co.il
+X-Mms-Originator-R/S-Delivery-Report: No
+
+------=_Part_1538440_896666475.1643149064895
+Content-Type: application/smil;Name=smil.xml
+Content-Transfer-Encoding: 7bit
+Content-ID:<smil>
+Content-Location:smil.xml
+
+<smil><head><layout><root-layout/><region id="Text" top="0" left="0" height="100%" width="100%"/></layout></head><body><par dur="5000ms"><text src="text.000000.txt" region="Text" /></par></body></smil>
+------=_Part_1538440_896666475.1643149064895
+Content-Type: text/plain;Name=text.000000.txt;Charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-ID:<text.000000>
+Content-Location:text.000000.txt
+
+https://vm.tiktok.com/ZSeqkbvkG/
+------=_Part_1538440_896666475.1643149064895--
+.
+QUIT
+250 Ok
+221 bye

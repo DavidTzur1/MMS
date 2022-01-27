@@ -126,6 +126,7 @@
     <Content Include="Trace\mm4.txt" />
     <Content Include="Trace\MM4Req\From0528449558.txt" />
     <Content Include="Trace\MM4Req\From0532308826.txt" />
+    <Content Include="Trace\MM4Req\Fromhotmobile.txt" />
     <Content Include="Trace\MM4Res\CellcomRES.txt" />
     <Content Include="Trace\MM4Res\GolantelecomRES.txt" />
     <Content Include="Trace\MM4Res\PelephoneRES.txt" />

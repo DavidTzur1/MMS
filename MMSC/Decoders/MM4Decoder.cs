@@ -238,8 +238,9 @@ namespace MMSC.Decoders
                     byte[] contentData;
                     using (var memory = new MemoryStream())
                     {
+                        //log.Debug($"IsAttachment{attachment.IsAttachment}");
                         if (attachment is MimePart)
-                            ((MimePart)attachment).Content.DecodeTo(memory);
+                            ((MimePart)attachment)?.Content?.DecodeTo(memory);
                         else
                             ((MessagePart)attachment).Message.WriteTo(memory);
                         contentData = memory.ToArray();

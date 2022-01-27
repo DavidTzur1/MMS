@@ -99,7 +99,8 @@ namespace MMSC.Tests
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\From0532308826Pic.txt");
             //var message = MimeMessage.Load(@"d:\Test10.txt");
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0528449558.txt");
-            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0532308826.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0532308826.txt");
+            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\Fromhotmobile.txt");
 
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\PelephoneRES.txt");
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\CellcomRES.txt");
