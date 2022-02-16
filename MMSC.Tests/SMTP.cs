@@ -89,6 +89,9 @@ namespace MMSC.Tests
         [TestMethod]
         public void SendSMTP()
         {
+            //סינון של ה WIRESHARK לבדוק את הבקשות לפתיחת חיבור
+            //ip.dst == 172.17.120.9 && tcp.flags.ack == 0 && tcp.flags.syn == 1
+
             var aaa = Convert.FromBase64String("P/VR6D0noPwP/9k=");
             // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt"); //mmscprovider.pelephone.net.il
             // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4_Cellcom.txt"); //mms.cellcom.co.il
@@ -98,9 +101,9 @@ namespace MMSC.Tests
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\From0532308826.txt");
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\From0532308826Pic.txt");
             //var message = MimeMessage.Load(@"d:\Test10.txt");
-            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0528449558.txt");
+            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0528449558.txt");
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\From0532308826.txt");
-            var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\Fromhotmobile.txt");
+            //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Req\Fromhotmobile.txt");
 
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\PelephoneRES.txt");
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\MM4Res\CellcomRES.txt");
@@ -109,7 +112,7 @@ namespace MMSC.Tests
 
             MMSMessageModel res = MM4Decoder.Parse(message);
 
-            if(res.MessageType == "MM4_forward.REQ")
+            if (res.MessageType == "MM4_forward.REQ")
             {
 
             }
@@ -117,23 +120,35 @@ namespace MMSC.Tests
             {
                 string messType = res.MessageType;
             }
-               
+
 
             //C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt
             //var message = MimeMessage.Load(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\Trace\mmsfromcelcom.txt");
             // MMSMessageModel  res = MM4Decoder.Parse(message);
-
-
-                using (var smtpClient = new SmtpClient())
+            bool flage = true;
+            while (flage)
             {
-                //smtpClient.Connect("smtpvs.partnergsm.co.il", 25, MailKit.Security.SecureSocketOptions.None);
-                //smtpClient.Connect("10.11.32.43", 25, MailKit.Security.SecureSocketOptions.None);
-                smtpClient.Connect("172.17.120.131", 25, MailKit.Security.SecureSocketOptions.None);
-                smtpClient.Send(message, new MailboxAddress("", "email@email.here"), new[] { new MailboxAddress("", "david.tzur@partner.co.il") });
-                smtpClient.Disconnect(true);
+                for (int i = 1; i < 30; i++)
+                {
+                    using (var smtpClient = new SmtpClient())
+                    {
+                        //smtpClient.Connect("smtpvs.partnergsm.co.il", 25, MailKit.Security.SecureSocketOptions.None);
+                        //smtpClient.Connect("10.11.32.43", 25, MailKit.Security.SecureSocketOptions.None);
+                        smtpClient.Connect("172.17.120.131", 25, MailKit.Security.SecureSocketOptions.None);
+                        //smtpClient.Send(message, new MailboxAddress("", "email@email.here"), new[] { new MailboxAddress("", "david.tzur@partner.co.il") });
+                        //smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972545246247/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972549992969/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972547789105/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972544500959/TYPE=PLMN@oklik.net") });
+                        //smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972545246247/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972549830432/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972549830440/TYPE=PLMN@oklik.net") });
+                        smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972549830432/TYPE=PLMN@oklik.net") });
+                        smtpClient.Disconnect(true);
+                    }
+                    //Task.Delay(10000);
+                }
+                flage = false;
+                //Task.Delay(TimeSpan.FromSeconds(30));
             }
+        }
 
            
-        }
+      
     }
 }

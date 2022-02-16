@@ -6,6 +6,7 @@ using MMSC.Models;
 using MMSC.Tables;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,6 +29,7 @@ namespace MMSC.Controllers
             IEnumerable<string> headerValues;
             long contentLength;
             MMSMessageModel message = null; ;
+            Stopwatch sw = Stopwatch.StartNew();
             try
             {
                
@@ -101,7 +103,7 @@ namespace MMSC.Controllers
                         Content = new StreamContent(new MemoryStream(sendConf.Encode()))
                     };
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
-                    log.Info(message.ToString());
+                    log.Info(message.ToString() + "|" + sw.ElapsedMilliseconds);
                     return ResponseMessage(result);
 
                 }
@@ -124,7 +126,7 @@ namespace MMSC.Controllers
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
                     cdr.Info(notifyresp.ToString());
-                    log.Info(notifyresp.ToString());
+                    log.Info(notifyresp.ToString() + "|" + sw.ElapsedMilliseconds);
                     return ResponseMessage(result);
                 }
                 else if (message.MessageType == MM1Decoder.MMS_MESSAGE_TYPES[0x85]) //{0x85, "m-acknowledge-ind"}
@@ -146,7 +148,7 @@ namespace MMSC.Controllers
 
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.wap.mms-message");
                     cdr.Info(acknowledge.ToString());
-                    log.Info(acknowledge.ToString());
+                    log.Info(acknowledge.ToString() + "|" + sw.ElapsedMilliseconds);
                     return ResponseMessage(result);
 
                 }

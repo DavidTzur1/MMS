@@ -42,11 +42,17 @@ namespace MMSC.SMTP
                 //    log.Debug($"key = {item.Key} Value= {item.Value}");
                 //}
 
-                
+
+                //log.Debug($"From Host={transaction.From.Host} From User={transaction.From.User} To Host={transaction.To.First().Host} To User={transaction.To.First().User}") ;
                 var message = await MimeKit.MimeMessage.LoadAsync(stream, cancellationToken);
 
                
                 var mms = MM4Decoder.Parse(message);
+                mms.From = Decoder.DeviceAddress(transaction.From.User);
+                foreach (var item in transaction.To)
+                {
+                    mms.To.Add(Decoder.DeviceAddress(item.User));
+                }
                 if (mms == null) return SmtpResponse.SyntaxError;
                 if (mms.MessageType == "MM4_forward.RES")
                 {

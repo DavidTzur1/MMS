@@ -21,7 +21,7 @@ MIME-Version: 1.0
 Content-Type: multipart/mixed; 
 	boundary="----=_Part_20854_1054468839.1642033419862"
 X-Mms-Message-Type: MM4_forward.REQ
-X-Mms-Originator-System: PostMaster@mms.cellcom.co.il
+X-Mms-Originator-System: david.tzur@partner.co.il
 X-Mms-3GPP-MMS-Version: 5.5.0
 X-Mms-Ack-Request: Yes
 X-Mms-Transaction-Id: v1x1Sv2C0TM.+972544341922

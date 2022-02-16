@@ -49,7 +49,7 @@ namespace MMSC.Decoders
                         case "From":
                             {
                                 //res.From = item.Value;
-                                res.From = Decoder.DeviceAddress( item.Value);
+                                //res.From = Decoder.DeviceAddress( item.Value);
                                 break;
                             }
                         case "Sender":
@@ -61,7 +61,7 @@ namespace MMSC.Decoders
                         case "To":
                             {
                                 //res.To.Add(item.Value);
-                                 res.To.Add(Decoder.DeviceAddress(item.Value));
+                                 //res.To.Add(Decoder.DeviceAddress(item.Value));
                                 break;
                             }
                         case "Subject":

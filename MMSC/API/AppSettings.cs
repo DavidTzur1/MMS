@@ -282,6 +282,34 @@ namespace MMSC.API
             
         }
 
+        public class MTAServer
+        {
+            public static string IP
+            {
+                get
+                {
+                    var ips = AppSettings.XMLSettings.Element("MTAServer").Attribute("IPs").Value.Split(',');
+                    Random rnd = new Random();
+                    int index = rnd.Next(ips.Length);                   
+                    return ips[index];
+                }
+            }
+
+            public static int Port
+            {
+                get
+                {
+                    int value = 25;
+
+                    if (int.TryParse(AppSettings.XMLSettings.Element("MTAServer").Attribute("Port").Value, out value))
+                    {
+                        return value;
+                    }
+                    return 25;
+                }
+            }
+        }
+
        
     }
 }
