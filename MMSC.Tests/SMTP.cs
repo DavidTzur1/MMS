@@ -91,7 +91,7 @@ namespace MMSC.Tests
         {
             //סינון של ה WIRESHARK לבדוק את הבקשות לפתיחת חיבור
             //ip.dst == 172.17.120.9 && tcp.flags.ack == 0 && tcp.flags.syn == 1
-            //
+            //..
             var aaa = Convert.FromBase64String("P/VR6D0noPwP/9k=");
             // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4.txt"); //mmscprovider.pelephone.net.il
             // var message = MimeMessage.Load(@"C:\Workspace\MMS\MMSClientTest\Trace\MM4_Cellcom.txt"); //mms.cellcom.co.il
