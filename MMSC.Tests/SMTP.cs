@@ -128,7 +128,7 @@ namespace MMSC.Tests
             bool flage = true;
             while (flage)
             {
-                for (int i = 1; i < 30; i++)
+                for (int i = 1; i < 2; i++)
                 {
                     using (var smtpClient = new SmtpClient())
                     {
@@ -138,7 +138,7 @@ namespace MMSC.Tests
                         //smtpClient.Send(message, new MailboxAddress("", "email@email.here"), new[] { new MailboxAddress("", "david.tzur@partner.co.il") });
                         //smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972545246247/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972549992969/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972547789105/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972544500959/TYPE=PLMN@oklik.net") });
                         //smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972545246247/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972549830432/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972549830440/TYPE=PLMN@oklik.net") });
-                        smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972549830432/TYPE=PLMN@oklik.net") });
+                        smtpClient.Send(message, new MailboxAddress("", "+972528449558/TYPE=PLMN@mms.cellcom.co.il"), new[] { new MailboxAddress("", "+972549830432/TYPE=PLMN@oklik.net"), new MailboxAddress("", "+972545246247/TYPE=PLMN@oklik.net") });
                         smtpClient.Disconnect(true);
                     }
                     //Task.Delay(10000);
