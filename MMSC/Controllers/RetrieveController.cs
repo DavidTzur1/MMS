@@ -24,7 +24,7 @@ namespace MMSC.Controllers
         Stopwatch sw = Stopwatch.StartNew();
         public async Task<IHttpActionResult> Get([FromUri] string messageid)
         {
-            IEnumerable<string> headerValues;
+            //IEnumerable<string> headerValues;
             MMSMessageModel message = null; ;
             try
             {

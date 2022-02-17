@@ -15,7 +15,7 @@ namespace MMSC.API
     public class SMTPClient
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        static int counter = 1;
+        //static int counter = 1;
         
         public async static Task<bool> Send(SMTPMessageModel message)
         {

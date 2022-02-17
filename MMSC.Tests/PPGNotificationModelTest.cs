@@ -61,10 +61,6 @@ namespace MMSC.Tests
         //
         #endregion
 
-        [TestMethod]
-        public async Task TestMethod1()
-        {
-            
-        }
+      
     }
 }
