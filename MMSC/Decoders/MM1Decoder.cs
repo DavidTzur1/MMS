@@ -697,7 +697,10 @@ namespace MMSC.Decoders
             foreach (var item in message.Parts)
             {
                 if (item.ContentType.ToLower().Trim() != "application/smil")
-                    mediaType = $"{mediaType};{item.ContentType}";
+                {
+                    string contentType = String.Concat(item.ContentType.Where(c => !Char.IsWhiteSpace(c)));
+                    mediaType = $"{mediaType};{contentType}";
+                }
             }
             return mediaType.Trim(';');
         }
