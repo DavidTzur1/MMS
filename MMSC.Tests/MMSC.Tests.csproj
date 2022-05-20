@@ -119,6 +119,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="StringValue.txt" />
     <Content Include="Trace\From0528449558.txt" />
     <Content Include="Trace\From0532308826.txt" />
     <Content Include="Trace\From0532308826Pic.txt" />

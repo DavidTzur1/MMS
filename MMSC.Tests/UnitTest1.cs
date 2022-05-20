@@ -3,6 +3,8 @@ using MMSC.API;
 using MMSC.Decoders;
 using MMSC.Models;
 using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MMSC.Tests
@@ -36,6 +38,30 @@ namespace MMSC.Tests
 
             MM1Decoder decoder = new MM1Decoder(pdu);
             MMSMessageModel message = decoder.Parse();
+        }
+
+        private TestContext testContextInstance;
+        /// <summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
+        public TestContext TestContext
+        {
+            get { return testContextInstance; }
+            set { testContextInstance = value; }
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var s1 = File.ReadAllText(@"C:\Users\dtzur\source\repos\MMS\MMSC.Tests\StringValue.txt");
+            TestContext.WriteLine(s1);
+            string contentType = String.Concat(s1.Where(c => !Char.IsWhiteSpace(c)));
+            TestContext.WriteLine(contentType);
+            // return contentType;
+
+
+
         }
     }
 }

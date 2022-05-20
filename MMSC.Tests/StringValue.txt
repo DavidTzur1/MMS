@@ -1,0 +1,5 @@
+﻿text/x-vcard;72523347000
+
+END:VCARD
+O
+??text_1652894583102.txt
