@@ -206,7 +206,9 @@ namespace MMSC.Decoders
                             message.Version = vMaj + "." + vMin;
                             break;
                         case TO: // OK
-                            message.To.Add(parseEncodedStringValue());
+                            string to = parseEncodedStringValue();
+                            if(!(to.Trim().Any(c => Char.IsWhiteSpace(c))))
+                            message.To.Add(to);
                             break;
                         case SUBJECT: // OK
                             message.Subject = this.parseEncodedStringValue();
@@ -698,8 +700,9 @@ namespace MMSC.Decoders
             {
                 if (item.ContentType.ToLower().Trim() != "application/smil")
                 {
-                    string contentType = String.Concat(item.ContentType.Where(c => !Char.IsWhiteSpace(c)));
-                    mediaType = $"{mediaType};{contentType}";
+                    //string contentType = String.Concat(item.ContentType.Where(c => !Char.IsWhiteSpace(c)));
+                    if(!(item.ContentType.Trim().Any(c => Char.IsWhiteSpace(c))))
+                    mediaType = $"{mediaType};{item.ContentType}";
                 }
             }
             return mediaType.Trim(';');
